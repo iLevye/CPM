@@ -1,0 +1,82 @@
+#top-bar {height: 26px; width:100%; float:left; background: #404040; border-bottom: 1px solid #1a1a1a;}
+#top-info span {float:left; margin-left:4px; margin-top:7px; font-family: Myriad Pro; font-size:14px; color: #bbbbbb; }
+#top-info img {float:left; margin-top:5px;}
+#top-info {float:right; margin-right: 20px; cursor:pointer;}
+#menu {float:left;height:84px; float:left; width: 100%; border-bottom:1px solid #e1e1e1; background: url('../images/menu-bg.png') bottom repeat-x white; margin-bottom:30px;}
+#menu ul li {cursor:pointer;text-shadow: 0px 0px 1px rgba(0,0,0,0); font-family: PFDinDisplayProLight; font-size:14px; color:#505050;padding-top:10px; font-weight:thin;float:left; height: 26px; background: url("../images/menu-buton-bg.png"); border-top: 1px solid #d4d4d4; border-bottom: 1px solid #bdbdbd; padding-left:26px; padding-right: 26px; border-right:1px solid #d1d1d1; border-left:1px solid white;}
+#menu ul li:first-child{border-left:1px solid #c9c9c9; -moz-top-left-radius: 2px; border-top-left-radius: 2px;-moz-bottom-left-radius: 2px; border-bottom-left-radius: 2px;}
+
+#menu ul li:last-child {border-right:1px solid #c9c9c9; -moz-top-right-radius: 2px; border-top-right-radius: 2px;-moz-bottom-right-radius: 2px; border-bottom-right-radius: 2px;}
+#menu ul li.active {border-right:1px solid #d1d1d1;background:url("../images/active-menu-bg.png");}
+
+#menu ul li:hover {background: #f9f9f9;}
+
+span.border {margin-top: 12px; height: 8px; float:left; width:100%; background:url("../images/border.png");}
+.blok {float:left;}
+.blok h1 {text-indent:4px; float:left; font-family:PFDinDisplayProLight; color:#494949; font-weight:normal; font-size:26px;}
+
+.serit-ic {height:100%;  width:100%;float:left; border-top:1px solid #f7f7f7; border-bottom:1px solid #efefef;}
+.serit-dis {width:99%; height: 40px; float:left; border-top:1px solid #f7f7f7; border-bottom:1px solid #efefef; border-right:1px solid #e2e2e2;}
+.kalip:first-child {margin-top:12px;}
+.serit-ic p {cursor:pointer; margin-top:10px; text-indent:16px; font-family: PFDinDisplayProLight; font-size:16px; color: #494949;}
+.pembe-box {float:left; width: 4px; height:100%; background: #ff4545;}
+.yesil-box{float:left; width:4px; height:100%; background:#23b43e;}
+.kalip {float:left; height:43px; width:100%; margin-top:4px;}
+.kalip .img {width:72px; float: right; height: 24px;}
+.kalip img {float:right; margin-top:-4px; margin-right:7px; cursor:pointer; border: 1px solid white;}
+.kalip img:hover{border: 1px solid #ececec;}
+
+.task_detail {padding:20px 0 20px 0; position:relative;display:none; border: 1px solid #e5e5e5; width:99%; margin-left:0px; float:left;background:url('../images/task-detail-bg.png') top repeat-x white;}
+.task_detail span {float:left; margin:0 2% 0 2%; font-family:tahoma; font-size:12px; color:#5E5E5E}
+.task_detail span.log {width:96%;}
+.task_detail span.note {margin-top:8px; margin-bottom:8px;float:left; width:96%; padding-top:8px; padding-bottom:8px; border:1px solid lightgray;}
+.task_detail span.note span {float:left; width:none;}
+.task_detail span.note span:last-child {float:right; text-align:right;}
+
+.serit-ic .time_info{float:right; margin-right:6px; margin-top:2px;}
+
+.alert {border:1px solid #e2e2e2; border-top: 1px solid #f9f9f9;height:40px; float:left; width:100%;}
+.alert:first-child {border-top:1px solid #e2e2e2; margin-top:12px;}
+.alert-detail {width:100%;float:left; border:1px solid #e2e2e2; border-top:none; display: none;}
+.alert-detail p {font-family:Arial; color:#787373; font-size:12px; margin:20px;}
+.alert-detail img {margin-left: 45%;}
+.alert .ozet {overflow:hidden; height:18px;cursor:pointer;margin-left:14px; font-family:sans-serif; font-size:13px; margin-top:12px;}
+.alert .ozet span {color:#6B6A6A;}
+.alert .etiket {font-family:Arial; font-size:13px; color:white; padding: 5px; margin:6px; background:url("../images/hatirlatma-etiket-bg.png"); float:right;}
+#logo {float:left; margin-left: 41px;margin-right: 78px;margin-top: 15px;}
+table.display {font-family:PFDinDisplayProLight; font-size:15px;}
+.dataTables_filter label input {color: #787878; text-indent: 6px}
+table.editable_data tr td p {line-height:20px; color:#595758;}
+table.editable_data tr td {padding: 10px 20px; vertical-align: middle;}
+table.editable_data tr td {border: 1px solid #D6D6D6;}
+.line_input {background: none;border:none; border-bottom:1px solid #D6D6D6; width:100%;}
+table.editable_data tr {  font-family: sans-serif; font-size:13px;}
+table.display tr td {vertical-align: middle;}
+a.buton {font-family:PFDinDisplayProLight; font-size: 14px;}
+.input_table input[type="text"], .input_table select, .dataTables_filter input {border: 1px solid #c0c0c0; height:25px; color: #4a4a4a;}
+.input_table input[type="text"] {text-indent:2px;}
+.input_table tr {border-bottom: 1px solid #f5f5f5;}
+
+.info-box {margin-top: 6px;border: 1px solid #dcc787; background:#fff2c8; color: #a79355; font-size:12px; font-family:sans-serif; padding: 4px 4px 4px 4px;}
+.info-box:first-child{ margin-top:none;}
+.info-box span {font-weight:bold;}
+.yeni_not {width: 96%;float: left;border: none;border-bottom: 1px solid lightgray;text-align: center; margin-left:2%;}
+.yeni_not_info {font-weight:bold; margin-top:5px !important; float:right !important}
+.not_satir:nth-child(even) {background: #F2F0F0}
+.not_satir {padding-top:2px; padding-bottom:2px;width:96%;float:left; margin-top:4px;}
+.not_text {font-style:italic;text-align:left;}
+
+#musteri_ara_sonuclar {position:absolute; min-height:20px; border:1px solid lightgray; width:402px; border-top:none;margin-left:2%; top:24px; background:white;}
+.ui-autocomplete li {cursor:pointer;color:#303030;padding-left:12px;font-family:sans-serif; font-size:13px; margin-left:0px; padding:10px; z-index:1000; position: relative;}
+.ui-autocomplete li:nth-child(even) {background: white;}
+.ui-autocomplete ul li:nth-child(odd) {background: #f3f3f3;}
+.ui-autocomplete ul li:hover{background:#F8FACF;}
+.ui-autocomplete ul li span {float:right;font-weight: bold}
+.ui-autocomplete ul {padding-left:0px;}
+#musteri_ara {background:url('../images/search.png') no-repeat right white; background-position-x: 384px; float:left; width:400px; margin-left:2%; border:1px solid #cdcdcd; border-radius:2px; height:23px; color:#737373; text-indent:10px;}
+.data1 {background:#EDEDED;}
+
+.link {font-family:sans-serif; color: #197D85; font-size:14px;}
+#not_filtre {position: absolute; right:146px; margin-top:20px; display:none; width:110px; }
+#not_filtre .buton {float:right; width:106px;}
+
