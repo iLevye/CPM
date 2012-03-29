@@ -140,6 +140,33 @@ class Project_management extends CI_Controller{
         echo $this->Task->add_note();
     }
 
+    public function project_list(){
+        $this->load->view('project_list');
+    }
+
+    public function get_project_list(){
+        $this->load->library('datatables');
+        $this->load->helper('date');
+        $this->load->library('definition');
+        $this->datatables->select('project_id, project_name, (select count(*) from Task where task_project_id = project_id) as tasks, project_status, user_name, project_date1, project_date2');
+        $this->datatables->from('Project');
+        $this->datatables->join('User', 'project_user_id = user_id', "Left");
+        $this->datatables->unset_column('project_id');
+        $this->datatables->edit_column("project_name", "<span row_id='$1'>$2</span>", "project_id, project_name");
+        $nesne = $this->datatables->generate();
+        $nesne = json_decode($nesne);
+
+        foreach($nesne->aaData as $n){
+            $n[4] = datepicker_en($n[4]);
+            $n[5] = datepicker_en($n[5]);
+            $n[2] = $this->definition->get_item('project_status_html', $n[2]);
+            $cikti[] = $n;
+        }
+        $nesne->aaData = $cikti;
+        
+        echo json_encode($nesne);
+    }
+
 
 }
 

@@ -144,12 +144,12 @@
     <? $url = uri_string();?>
         <li class="first <?if(strrpos($url, "customer_management") === 0){echo " active ";}?>" onclick="location.href='<?= base_url() ?>customer_management/'">Müşteriler</li>
         <li <?if(strrpos($url, "personel_management") === 0){echo " class='active' ";}?> onclick="location.href='<?= base_url() ?>personel_management/'">Personeller</li>
-        <li <?if(strrpos($url, "project_management") === 0){echo " class='active' ";}?> >Projeler</li>
+        <li <?if(strrpos($url, "project_management") === 0){echo " class='active' ";}?> onclick="location.href='<?=base_url()?>project_management/project_list'">Projeler</li>
         <li <?if(strrpos($url, "contacts") === 0){echo " class='active' ";}?> onclick="location.href='<?= base_url() ?>contacts/'">Rehber</li>
         <li <?if(strrpos($url, "customer_service") === 0){echo " class='active' ";}?> onclick="location.href='<?= base_url() ?>lister/customer_service/'">Sözleşmeler</li>
         <li <?if(strrpos($url, "offer_management") === 0){echo " class='active' ";}?> onclick="location.href='<?= base_url() ?>offer_management/'">Teklifler</li>
-        <li>Servisler</li>
-        <li>Fiyat Listesi</li>
+        <li <?if(strrpos($url, "services") === 0){echo " class='active' ";}?> onclick="location.href='<?= base_url() ?>services/'">Servisler</li>
+        <li <?if(strrpos($url, "price_list") === 0){echo " class='active' ";}?> onclick="location.href='<?= base_url() ?>price_list/'">Fiyat Listesi</li>
         <li class="last">Hizmetler</li>
     </ul>
     <input type="text" style="height:34px;" value="Müşteri ara..." id="musteri_ara">

@@ -43,7 +43,7 @@ function sektorler(element, selected){
 function notlar(customer_id){
     $("#not_listesi").html("");
     $("#not_listesi").ajaxTemplate({
-        source : base_url + "customer_management/get_notes/" + customer_id, 
+        source : base_url + "customer_management/get_notes/" + customer_id,
         template : "#not_template"
     });
 }

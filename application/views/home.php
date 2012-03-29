@@ -8,17 +8,55 @@
 		$("#gorev_listesi").html("");
 		$("#gorev_listesi").ajaxTemplate({
 			source : base_url + "home/tasks/", 
-			template : "#gorev_template"
+			template : "#gorev_template",
+			list : "#gorev_listesi"
+		});
+	}
+
+	function hatirlatmalar(){
+		$("#hatirlatma_listesi").html("");
+		$("#hatirlatma_listesi").ajaxTemplate({
+			source : base_url + "alert_management/my_alerts",
+			template : "#hatirlatma_template",
+			list : "#hatirlatma_listesi"
 		});
 	}
 
 	$(document).ready(function(){
-
-		gorevler();
+		
 		$("#hatirlatmalar").accordion({icons: false});
+		hatirlatmalar();
+		gorevler();
 
 
 		// eventlar 
+		$("#yeni_hatirlatma_buton").live('click', function(){
+			$("#yeni_hatirlatma").dialog({
+				model:true,
+				width:'600px',
+				buttons:{
+					"Vazgeç" : function(){
+						$(this).dialog("close");
+					},
+					"Kaydet" : function(){
+						$.post(base_url + "alert_management/new_alert/", {
+							alert_text : $("#y_hatirlatma_not").val(),
+							alert_datetime : $("#y_hatirlatma_tarih").val()
+						}, function(data){
+							if(data == -1){
+								alert("Geçmiş tarihe hatırlatma ekleyemezsiniz");		
+							}
+							if(data > 0){
+								hatirlatmalar();
+								alert("Hatırlatma eklendi. " + $("#y_hatirlatma_tarih").val() + " tarihinde hatırlatılacak.");
+							}
+						});
+						$("#yeni_hatirlatma").dialog("close");
+					}
+				}
+			});
+		});
+
 		$(".kalip").live('click', function(){
 			$(this).next(".task_detail").slideToggle(100);
 		});
@@ -152,119 +190,36 @@
 <div class="blok" style="width:51%; margin-left:2%; margin-right:2%;">
 	<h1>Görevler</h1>
 	<span class="border"></span>
+	<div id="gorev_listesi"></div>
+</div>
 
-	<div id="gorev_listesi">
-	</div>
-
+<div id="yeni_hatirlatma" style="display:none" title="Yeni Hatırlatma<span class='border'></span>">
+	<table class="input_table display" style="width:564px;">
+		<tr>
+			<td>Hatırlatma Tarihi</td><td><input type="text" id="y_hatirlatma_tarih" class="tarih" /></td>
+		</tr>
+		<tr>
+			<td>Notunuz</td>
+			<td><textarea id="y_hatirlatma_not" style="width:300px; height:80px"></textarea></td>
+		</tr>
+	</table>
 </div>
 
 <div class="blok" style="width:41%; margin-left:2%; margin-right:2%;">
 	<h1>Hatırlatmalar</h1>
+	<a id="yeni_hatirlatma_buton" class="buton" style="float:right; margin-top:-6px">Yeni Hatırlatma</a>
 	<span class="border"></span>
-	
-	<div class="alert first">
-		<div class="etiket">GÖRÜŞME</div><div class="ozet">Donec adipiscing nunc tellus a sapien a erosest congue...</div>
-	</div>
-	
-	<div class="alert-detail">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-	</div>
-
-	<div class="alert">
-		<div class="etiket">SÖZLEŞME</div><div class="ozet">Maecenas et adipiscing nunc enim, a elementum quam...</div>
-	</div>
-	
-	<div class="alert-detail">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+	<div id="hatirlatma_template" style="display:none">
+		<div class="alert first">
+			<div class="etiket">{$tag}</div><div class="ozet">{$alert_ozet}...</div>
+		</div>
+		
+		<div class="alert-detail">
+			<p>{$alert_text}</p>
+		</div>
 	</div>
 
-	<div class="alert">
-		<div class="etiket">SÖZLEŞME</div><div class="ozet">Pellentesque eiusmod feugiat sapien a eros vulputate nec...</div>
-	</div>
-	
-	<div class="alert-detail">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-	</div>
-	<div class="alert">
-		<div class="etiket">TEKLİF</div><div class="ozet">Sed rutrum egestas felis, at euismod eros convallis...</div>
-	</div>
-	
-	<div class="alert-detail">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-	</div>
-	<div class="alert">
-		<div class="etiket">ÖZEL NOT</div><div class="ozet">Cras eu neque eu augue pretium sollicitudin consectetur...</div>
-	</div>
-	
-	<div class="alert-detail">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-	</div>
-	<div class="alert">
-		<div class="etiket">TEKLİF</div><div class="ozet">Nullam non nisl mi, non varius nostrud exercitation tortor....</div>
-	</div>
-	
-	<div class="alert-detail">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-	</div>
-	<div class="alert">
-		<div class="etiket">SÖZLEŞME</div><div class="ozet">Sed dignissim erat aliquet eu convallis sem condimentum...</div>
-	</div>
-	
-	<div class="alert-detail">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-	</div>
-
-	<div class="alert">
-		<div class="etiket">GÖRÜŞME</div><div class="ozet">Donec adipiscing nunc tellus a sapien a erosest congue...</div>
-	</div>
-	
-	<div class="alert-detail">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-	</div>
-
-	<div class="alert">
-		<div class="etiket">SÖZLEŞME</div><div class="ozet">Maecenas et adipiscing nunc enim, a elementum quam...</div>
-	</div>
-	
-	<div class="alert-detail">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-	</div>
-
-	<div class="alert">
-		<div class="etiket">SÖZLEŞME</div><div class="ozet">Pellentesque eiusmod feugiat sapien a eros vulputate nec...</div>
-	</div>
-	
-	<div class="alert-detail">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-	</div>
-	<div class="alert">
-		<div class="etiket">TEKLİF</div><div class="ozet">Sed rutrum egestas felis, at euismod eros convallis...</div>
-	</div>
-	
-	<div class="alert-detail">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-	</div>
-	<div class="alert">
-		<div class="etiket">ÖZEL NOT</div><div class="ozet">Cras eu neque eu augue pretium sollicitudin consectetur...</div>
-	</div>
-	
-	<div class="alert-detail">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-	</div>
-	<div class="alert">
-		<div class="etiket">TEKLİF</div><div class="ozet">Nullam non nisl mi, non varius nostrud exercitation tortor....</div>
-	</div>
-	
-	<div class="alert-detail">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-	</div>
-	<div class="alert">
-		<div class="etiket">SÖZLEŞME</div><div class="ozet">Sed dignissim erat aliquet eu convallis sem condimentum...</div>
-	</div>
-	
-	<div class="alert-detail">
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-	</div>
+	<div id="hatirlatma_listesi"></div>
 
 </div>
 

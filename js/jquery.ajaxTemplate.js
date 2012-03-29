@@ -1,10 +1,8 @@
-		
 		$.fn.ajaxTemplate = function(options) {
 			var settings = $.extend( {
 				}, options);
 			
 			toDiv = $(this);
-
 			return this.each(function() {
 				$.getJSON(settings.source, function(JSON){
 					$.each(JSON, function(k, v) {
@@ -16,8 +14,7 @@
 								html = html.replace("{$" + key + "}", val);	
 							}
 						});
-						
-						
+
 						var pat = /\{if ([^}]+)\}([^{]+)(\{else\}([^{]+))?\{\/if\}/gm;
 						iff = html.match(pat);
 						if(iff !== null){
@@ -39,8 +36,12 @@
 						}
 						
 						//JSON[k]['task_status']);
-
-						toDiv.append(html);
+						if(settings.list != undefined){
+							$(settings.list).append(html);
+						}else{
+							toDiv.append(html);
+						}
+						
 					});
 				});
 			});
