@@ -30,11 +30,11 @@ class Personel_management extends CI_Controller {
     public function new_personel() {
         $this->User->user_name = $this->input->post('isim');
         $this->User->user_email = $this->input->post('eposta');
+        $this->User->user_password = md5($this->input->post('pass')); 
         $this->User->user_phone = $this->input->post('telefon');
         $this->User->user_gsm = $this->input->post('gsm');
         $this->User->user_title = $this->input->post('title');
         $this->User->user_address = $this->input->post('adres');
-        $this->User->user_permission_id = $this->input->post('yetki');
         $this->User->user_department_id = $this->input->post('departman');
         $this->User->insert();
         if (intval($this->User->user_id)) {

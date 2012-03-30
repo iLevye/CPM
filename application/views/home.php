@@ -46,6 +46,7 @@
 			takip_ettiklerim();
 		});
 
+		hatirlatmalar();
 		$("#hatirlatmalar").accordion({icons: false});
 		gorevler();
 
@@ -125,6 +126,32 @@
 				if(data > 0){
 					alert("Görev bitirildi");
 					gorevler();
+				}else{
+					alert("Bir sorun oluştu");
+				}
+			});
+			return false;
+		});
+
+		$(".task_confirm_buton").live('click', function(){
+			task_id = $(this).parents('.kalip').attr("task_id");
+			$.post(base_url + "home/confirm_task", {task_id : task_id}, function(data){
+				if(data > 0){
+					alert("Görev onaylandı");
+					takip_ettiklerim();
+				}else{
+					alert("Bir sorun oluştu");
+				}
+			});
+			return false;
+		});
+
+		$(".task_revised_buton").live('click', function(){
+			task_id = $(this).parents('.kalip').attr("task_id");
+			$.post(base_url + "home/revised_task", {task_id : task_id}, function(data){
+				if(data > 0){
+					alert("Revize gönderildi");
+					takip_ettiklerim();
 				}else{
 					alert("Bir sorun oluştu");
 				}

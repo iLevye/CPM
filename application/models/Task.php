@@ -64,6 +64,16 @@ class Task extends CI_Model{
         return $row[0]['paused'];
     }
 
+    function confirm_task(){
+        $dizi = array($this->task_id, $this->task_feedback_user_id);
+        //print_r($dizi);
+        $sql = $this->db->query("call sp_confirmTask(?, ?, @a);", $dizi);
+        //echo $this->db->last_query();
+        $sql = $this->db->query("Select @a as confirmed;");
+        $row = $sql->result_array();
+        return $row[0]['confirmed'];
+    }
+
     function add_note(){
         $sql = $this->db->get_where('Task', array('task_id' => $this->task_id));
         $row = $sql->result_array();
@@ -79,7 +89,7 @@ class Task extends CI_Model{
         $this->definition->html = TRUE;
         $this->load->helper('date');
 
-        $this->db->select("create_name, task_create_date, task_status, task_feedback, task_id, task_name, task_plannedTime, usedTime, task_finish, task_not, task_start, task_real_start, task_real_finish");
+        $this->db->select("create_name, task_feedback_user_id, task_create_date, task_status, task_feedback, task_id, task_name, task_plannedTime, usedTime, task_finish, task_not, task_start, task_real_start, task_real_finish");
         $this->db->from("vw_gettasks");
 
         if($this->task_create_user_id != ""){
@@ -104,12 +114,16 @@ class Task extends CI_Model{
             $r['task_finish_t'] = datepicker_en($r['task_finish']);
             $r['task_start_t'] = datepicker_en($r['task_start']);
 
-            if($r['task_status'] == 0  && $this->task_user_id != ""){
+            if(($r['task_status'] == 0 or $r['task_status'] == 2) && $this->task_user_id != ""){
                 $r['buttons'] = '<img class="task_finish_buton" src="images/finish.png" /><img class="task_play_buton" src="images/play.png" />';
             }
             
             if($r['task_status'] == "3"){
-                $r['buttons'] = "<img src='images/wait.gif' style='margin-right:28px;'/>";
+                if($r['task_feedback_user_id'] == $this->session->userdata('user_id') && $r['task_feedback'] == 2){
+                    $r['buttons'] = '<img class="task_revised_buton" src="images/refresh.png" /><img class="task_confirm_buton" src="images/confirm.png" />';
+                }else{
+                    $r['buttons'] = "<img src='images/wait.gif' style='margin-right:28px;'/>";    
+                }
             }
 
             

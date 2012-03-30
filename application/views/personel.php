@@ -416,25 +416,56 @@ $this->load->javascript('jquery.treeselect');
 
 <? ///////////////////////////////////   YENİ KAYIT /// ?>
 <div id="yeni_kayit_penceresi" title="Yeni Personel <span class='border'></span>" style="display:none;">
-    <form id="yeni_kayit_form" class="column">
-        <span>Personel Adı: <input type="text" id="y_personel_isim"></span>
-        <span>E-posta: <input type="text" id="y_personel_eposta"></span>
-        <span>Telefon: <input type="text" id="y_personel_telefon"></span>
-        <span>GSM: <input type="text" id="y_personel_gsm"></span>
-        <span>Title: <input type="text" id="y_personel_title"></span>
-        <span>Adres: <textarea id="y_personel_adres"></textarea></span>
-        <span>Yetki: <select id="y_personel_yetki" style="min-width:200px;">
-                <?php foreach ($permissions as $permission) { ?>
-                    <option value="<?= $permission['permission_id'] ?>"><?= $permission['permission_name'] ?></option>
-                <?php } ?>
-            </select></span>
 
-        <span>Departman: <select id="y_personel_departman" style="min-width:200px;">
+    <table class="input_table display" style="width:474px;">
+        <tr>
+            <td style="width:150px;">Personel Adı</td>
+            <td style="width:350px;"><input type="text" id="y_personel_isim"></td>
+        </tr>
+
+        <tr>
+            <td>E-posta</td>
+            <td><input type="text" id="y_personel_eposta"></td>
+        </tr>
+
+        <tr>
+            <td>Şifre</td>
+            <td><input type="text" id="y_personel_pass"></td>
+        </tr>
+
+        <tr>
+            <td>Telefon</td>
+            <td><input type="text" id="y_personel_telefon"></td>
+        </tr>
+
+        <tr>
+            <td>GSM</td>
+            <td><input type="text" id="y_personel_gsm"></td>
+        </tr>
+
+        <tr>
+            <td>Title</td>
+            <td><input type="text" id="y_personel_title"></td>
+        </tr>
+
+        <tr>
+            <td>Adres</td>
+            <td><textarea id="y_personel_adres"></textarea></td>
+        </tr>
+
+        <tr>
+            <td>Departman</td>
+            <td>
+                <select id="y_personel_departman" style="min-width:200px;">
                 <?php foreach ($departments as $permission) { ?>
                     <option value="<?= $permission['department_id'] ?>"><?= $permission['department_name'] ?></option>
                 <?php } ?>
-            </select></span>
-    </form>
+                </select>
+            </td>
+        </tr>
+        
+    </table>
+
 </div>
 
 

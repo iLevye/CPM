@@ -47,6 +47,13 @@ class Home extends CI_Controller{
         echo json_encode($this->Task->get_tasks());
     }
 
+    public function confirm_task(){
+        $this->load->model('Task');
+        $this->Task->task_id = $this->input->post('task_id');
+        $this->Task->task_feedback_user_id = $this->session->userdata('user_id');
+        echo $this->Task->confirm_task();
+    }
+
 }
 
 ?>

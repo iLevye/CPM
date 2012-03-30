@@ -249,35 +249,35 @@ $(document).ready(function() {
     // Yeni Kullanıcı Kaydı !!
     $("#yeni_kayit_buton").live('click', function(){
         $("#yeni_kayit_penceresi").dialog({
-            width: '400px', 
+            width: '500px',
             buttons: [
-
-            {
-                text: "Vazgeç",
-                click: function() {
-                    $(this).dialog("close");
+                {
+                    text: "Vazgeç",
+                    click: function() {
+                        $(this).dialog("close");
+                    }
+                },
+                {
+                    text: "Kaydet",
+                    click: function(){
+                        $(this).dialog("close");
+                        $.post(base_url + "personel_management/new_personel", {
+                            isim: $("#y_personel_isim").val(),
+                            eposta : $("#y_personel_eposta").val(),
+                            pass : $("#y_personel_pass").val(),
+                            telefon : $("#y_personel_telefon").val(),
+                            gsm : $("#y_personel_gsm").val(),
+                            title : $("#y_personel_title").val(),
+                            adres : $("#y_personel_adres").val(),
+                            departman : $("#y_personel_departman").val()
+                        }, function(data){
+                            if(data == "1"){
+                                alert("Personel eklendi");
+                                $("#yeni_kayit_penceresi").dialog("close");
+                            }
+                        });
+                    }
                 }
-            },
-            {
-                text: "Kaydet",
-                click: function() { 
-                    $(this).dialog("close");
-                    $.post(base_url + "personel_management/new_personel", {
-                        isim: $("#y_personel_isim").val(),
-                        eposta : $("#y_personel_eposta").val(),
-                        telefon : $("#y_personel_telefon").val(),
-                        gsm : $("#y_personel_gsm").val(),
-                        title : $("#y_personel_title").val(),
-                        adres : $("#y_personel_adres").val(),
-                        yetki : $("#y_personel_yetki").val(),
-                        departman : $("#y_personel_departman").val()
-								                                                  		
-                    }, function(data){
-                        alert("sonuc" + data);
-                    });
-                }
-            }
-					                                              
             ]
             });
 					
