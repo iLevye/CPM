@@ -14,7 +14,7 @@ class Alert extends CI_Model{
 
 	function get_alerts(){
 		$this->db->where('alert_user_id', $this->alert_user_id);
-		$this->db->where("alert_datetime > NOW()");
+		$this->db->where("alert_datetime < NOW()");
 		$this->db->where("alert_confirm", "0");
 		$sql = $this->db->get('Alert');
 		foreach($sql->result_array() as $row){
