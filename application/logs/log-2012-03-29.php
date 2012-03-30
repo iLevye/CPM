@@ -17156,3 +17156,167 @@ DEBUG - 2012-03-29 18:20:15 --> Total execution time: 0.0152
 ERROR - 2012-03-29 18:20:15 --> Severity: Notice  --> Undefined variable: dizi /Users/emrecan/Desktop/www/atacrm/application/models/task.php 146
 DEBUG - 2012-03-29 18:20:15 --> Final output sent to browser
 DEBUG - 2012-03-29 18:20:15 --> Total execution time: 0.0173
+DEBUG - 2012-03-29 18:24:16 --> Config Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Hooks Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Utf8 Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> UTF-8 Support Enabled
+DEBUG - 2012-03-29 18:24:16 --> URI Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Router Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Output Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Security Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Input Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-03-29 18:24:16 --> Language Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Loader Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Helper loaded: url_helper
+DEBUG - 2012-03-29 18:24:16 --> Database Driver Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Session Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Helper loaded: string_helper
+DEBUG - 2012-03-29 18:24:16 --> Session routines successfully run
+DEBUG - 2012-03-29 18:24:16 --> Model Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Model Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Model Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Controller Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> File loaded: application/views/home.php
+DEBUG - 2012-03-29 18:24:16 --> Final output sent to browser
+DEBUG - 2012-03-29 18:24:16 --> Total execution time: 0.0636
+DEBUG - 2012-03-29 18:24:16 --> Config Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Hooks Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Utf8 Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> UTF-8 Support Enabled
+DEBUG - 2012-03-29 18:24:16 --> URI Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Router Class Initialized
+ERROR - 2012-03-29 18:24:16 --> 404 Page Not Found --> css
+ERROR - 2012-03-29 18:24:16 --> Severity: Notice  --> Undefined property: CI_Exceptions::$load /Users/emrecan/Desktop/www/atacrm/application/errors/error_404.php 2
+DEBUG - 2012-03-29 18:24:16 --> Config Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Config Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Hooks Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Hooks Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Utf8 Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Utf8 Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> UTF-8 Support Enabled
+DEBUG - 2012-03-29 18:24:16 --> UTF-8 Support Enabled
+DEBUG - 2012-03-29 18:24:16 --> URI Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> URI Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Router Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Router Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Output Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Output Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Security Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Security Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Input Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Input Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-03-29 18:24:16 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-03-29 18:24:16 --> Language Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Language Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Loader Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Loader Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Helper loaded: url_helper
+DEBUG - 2012-03-29 18:24:16 --> Helper loaded: url_helper
+DEBUG - 2012-03-29 18:24:16 --> Database Driver Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Database Driver Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Session Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Session Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Helper loaded: string_helper
+DEBUG - 2012-03-29 18:24:16 --> Helper loaded: string_helper
+DEBUG - 2012-03-29 18:24:16 --> Session routines successfully run
+DEBUG - 2012-03-29 18:24:16 --> Session routines successfully run
+DEBUG - 2012-03-29 18:24:16 --> Model Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Model Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Model Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Model Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Model Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Model Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Controller Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Controller Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Model Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Model Class Initialized
+DEBUG - 2012-03-29 18:24:16 --> Helper loaded: date_helper
+ERROR - 2012-03-29 18:24:16 --> Severity: Notice  --> Undefined variable: cikti /Users/emrecan/Desktop/www/atacrm/application/models/alert.php 25
+DEBUG - 2012-03-29 18:24:16 --> Final output sent to browser
+ERROR - 2012-03-29 18:24:16 --> Severity: Notice  --> Undefined variable: dizi /Users/emrecan/Desktop/www/atacrm/application/models/task.php 146
+DEBUG - 2012-03-29 18:24:16 --> Total execution time: 0.0156
+DEBUG - 2012-03-29 18:24:16 --> Final output sent to browser
+DEBUG - 2012-03-29 18:24:16 --> Total execution time: 0.0164
+DEBUG - 2012-03-29 19:13:28 --> Config Class Initialized
+DEBUG - 2012-03-29 19:13:28 --> Hooks Class Initialized
+DEBUG - 2012-03-29 19:13:28 --> Utf8 Class Initialized
+DEBUG - 2012-03-29 19:13:28 --> UTF-8 Support Enabled
+DEBUG - 2012-03-29 19:13:28 --> URI Class Initialized
+DEBUG - 2012-03-29 19:13:28 --> Router Class Initialized
+DEBUG - 2012-03-29 19:13:28 --> Output Class Initialized
+DEBUG - 2012-03-29 19:13:28 --> Security Class Initialized
+DEBUG - 2012-03-29 19:13:28 --> Input Class Initialized
+DEBUG - 2012-03-29 19:13:28 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-03-29 19:13:28 --> Language Class Initialized
+DEBUG - 2012-03-29 19:13:28 --> Loader Class Initialized
+DEBUG - 2012-03-29 19:13:28 --> Helper loaded: url_helper
+DEBUG - 2012-03-29 19:13:28 --> Database Driver Class Initialized
+DEBUG - 2012-03-29 19:13:28 --> Session Class Initialized
+DEBUG - 2012-03-29 19:13:28 --> Helper loaded: string_helper
+DEBUG - 2012-03-29 19:13:28 --> Session routines successfully run
+DEBUG - 2012-03-29 19:13:28 --> Model Class Initialized
+DEBUG - 2012-03-29 19:13:28 --> Model Class Initialized
+DEBUG - 2012-03-29 19:13:28 --> Model Class Initialized
+DEBUG - 2012-03-29 19:13:28 --> Controller Class Initialized
+DEBUG - 2012-03-29 19:13:28 --> File loaded: application/views/home.php
+DEBUG - 2012-03-29 19:13:28 --> Final output sent to browser
+DEBUG - 2012-03-29 19:13:28 --> Total execution time: 0.8273
+DEBUG - 2012-03-29 19:13:29 --> Config Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Hooks Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Utf8 Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> UTF-8 Support Enabled
+DEBUG - 2012-03-29 19:13:29 --> URI Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Router Class Initialized
+ERROR - 2012-03-29 19:13:29 --> 404 Page Not Found --> css
+ERROR - 2012-03-29 19:13:29 --> Severity: Notice  --> Undefined property: CI_Exceptions::$load /Users/emrecan/Desktop/www/atacrm/application/errors/error_404.php 2
+DEBUG - 2012-03-29 19:13:29 --> Config Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Hooks Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Utf8 Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> UTF-8 Support Enabled
+DEBUG - 2012-03-29 19:13:29 --> URI Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Router Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Config Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Hooks Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Utf8 Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> UTF-8 Support Enabled
+DEBUG - 2012-03-29 19:13:29 --> URI Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Router Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Output Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Security Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Output Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Input Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-03-29 19:13:29 --> Language Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Loader Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Helper loaded: url_helper
+DEBUG - 2012-03-29 19:13:29 --> Database Driver Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Security Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Input Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Session Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Helper loaded: string_helper
+DEBUG - 2012-03-29 19:13:29 --> Session routines successfully run
+DEBUG - 2012-03-29 19:13:29 --> Model Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Model Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Model Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Controller Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-03-29 19:13:29 --> Language Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Loader Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Model Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Helper loaded: url_helper
+DEBUG - 2012-03-29 19:13:30 --> Database Driver Class Initialized
+DEBUG - 2012-03-29 19:13:29 --> Final output sent to browser
+DEBUG - 2012-03-29 19:13:30 --> Total execution time: 0.2897
+DEBUG - 2012-03-29 19:13:30 --> Session Class Initialized
+DEBUG - 2012-03-29 19:13:30 --> Helper loaded: string_helper
+DEBUG - 2012-03-29 19:13:30 --> Session routines successfully run
+DEBUG - 2012-03-29 19:13:30 --> Model Class Initialized
+DEBUG - 2012-03-29 19:13:30 --> Model Class Initialized
+DEBUG - 2012-03-29 19:13:30 --> Model Class Initialized
+DEBUG - 2012-03-29 19:13:30 --> Controller Class Initialized
+DEBUG - 2012-03-29 19:13:30 --> Model Class Initialized
+DEBUG - 2012-03-29 19:13:30 --> Helper loaded: date_helper
+DEBUG - 2012-03-29 19:13:30 --> Final output sent to browser
+DEBUG - 2012-03-29 19:13:30 --> Total execution time: 0.9007

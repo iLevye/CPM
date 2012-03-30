@@ -13,6 +13,15 @@
 		});
 	}
 
+	function verilen_gorevler(){
+		$("#gorev_listesi").html("");
+		$("#gorev_listesi").ajaxTemplate({
+			source : base_url + "home/tasks_by_me/", 
+			template : "#gorev_template2",
+			list : "#gorev_listesi"
+		});
+	}
+
 	function hatirlatmalar(){
 		$("#hatirlatma_listesi").html("");
 		$("#hatirlatma_listesi").ajaxTemplate({
@@ -24,10 +33,21 @@
 
 	$(document).ready(function(){
 		
+		$("#gorevlerim").live('click', function(){
+			$(".gorevler_tab a").css("text-decoration", "none");
+			$(this).css("text-decoration", "underline");
+			gorevler();
+		});
+
+		$("#verdigim_gorevler").live('click', function(){
+			$(".gorevler_tab a").css("text-decoration", "none");
+			$(this).css("text-decoration", "underline");
+			verilen_gorevler();
+		});
+
 		$("#hatirlatmalar").accordion({icons: false});
 		hatirlatmalar();
 		gorevler();
-
 
 		// eventlar 
 		$("#yeni_hatirlatma_buton").live('click', function(){
@@ -160,6 +180,11 @@
 		padding: 4px;
 		position: relative;
 	}
+
+	.gorevler_tab {font-family: sans-serif; font-size:14px; color:#41802D;}
+	.gorevler_tab a {float:left; margin-top:10px; cursor:pointer;margin-left: 20px;}
+	.gorevler_tab a:hover {text-decoration:underline;}
+
 	</style>
 
 </head>
@@ -183,14 +208,33 @@
 	</div>
 </div>
 
+<div id="gorev_template2" style="display:none">
+	<div class="kalip first" task_id="{$task_id}">
+		<div class="{if $task_status == 1}yesil{else}pembe{/if}-box"></div>
+		<div class="serit-dis">
+			<div class="serit-ic">
+				<p style='color:{if $task_status == 2}#C9C9C9{/if}'>{$task_name}
+				<span class="img">{$buttons}</span>
+				<span class="time_info">{$task_plannedTime} / {$usedTime}</span>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="task_detail">
+		<span>{$detail}</span>
+	</div>
+</div>
+
 <div id="finish_task" style="display:none;">
 	<p>Görevin bittiğini bildirdiğinizde 
 </div>
 
 <div class="blok" style="width:51%; margin-left:2%; margin-right:2%;">
-	<h1>Görevler</h1>
+	<h1>Görevler</h1> <span class="gorevler_tab" style="float:right;"><a style="text-decoration: underline;"id="gorevlerim">Görevlerim</a> <a id="verdigim_gorevler">Verdiğim görevler</a></span>
 	<span class="border"></span>
 	<div id="gorev_listesi"></div>
+	<div id="gorev_listesi2" style="display:none;"></div>
 </div>
 
 <div id="yeni_hatirlatma" style="display:none" title="Yeni Hatırlatma<span class='border'></span>">

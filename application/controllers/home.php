@@ -8,7 +8,7 @@ class Home extends CI_Controller{
 		}
 	}
 	
-	function index(){
+	public function index(){
 		$this->load->view('home');
 	}
 
@@ -37,6 +37,12 @@ class Home extends CI_Controller{
         $this->Task->task_id = $this->input->post('task_id');
         $this->Task->task_user_id = $this->session->userdata('user_id');
         echo $this->Task->finish_task();
+    }
+
+    public function tasks_by_me(){
+        $this->load->model('Task');
+        $this->Task->task_create_user_id = $this->session->userdata('user_id');
+        echo json_encode($this->Task->get_tasks());
     }
 
 }
