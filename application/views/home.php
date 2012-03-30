@@ -13,14 +13,15 @@
 		});
 	}
 
-	function verilen_gorevler(){
+	function takip_ettiklerim(){
 		$("#gorev_listesi").html("");
 		$("#gorev_listesi").ajaxTemplate({
-			source : base_url + "home/tasks_by_me/", 
+			source : base_url + "home/following_task/", 
 			template : "#gorev_template2",
 			list : "#gorev_listesi"
 		});
 	}
+
 
 	function hatirlatmalar(){
 		$("#hatirlatma_listesi").html("");
@@ -39,14 +40,13 @@
 			gorevler();
 		});
 
-		$("#verdigim_gorevler").live('click', function(){
+		$("#takip_ettiklerim").live('click', function(){
 			$(".gorevler_tab a").css("text-decoration", "none");
 			$(this).css("text-decoration", "underline");
-			verilen_gorevler();
+			takip_ettiklerim();
 		});
 
 		$("#hatirlatmalar").accordion({icons: false});
-		hatirlatmalar();
 		gorevler();
 
 		// eventlar 
@@ -231,7 +231,7 @@
 </div>
 
 <div class="blok" style="width:51%; margin-left:2%; margin-right:2%;">
-	<h1>Görevler</h1> <span class="gorevler_tab" style="float:right;"><a style="text-decoration: underline;"id="gorevlerim">Görevlerim</a> <a id="verdigim_gorevler">Verdiğim görevler</a></span>
+	<h1>Görevler</h1> <span class="gorevler_tab" style="float:right;"><a style="text-decoration: underline;"id="gorevlerim">Görevlerim</a> <a id="takip_ettiklerim">Takip ettiğim görevler</a></span>
 	<span class="border"></span>
 	<div id="gorev_listesi"></div>
 	<div id="gorev_listesi2" style="display:none;"></div>
@@ -258,8 +258,9 @@
 			<div class="etiket">{$tag}</div><div class="ozet">{$alert_ozet}...</div>
 		</div>
 		
-		<div class="alert-detail">
+		<div class="alert-detail" alert_id="{$alert_id}">
 			<p>{$alert_text}</p>
+			<span style="float:right; margin-right:10px; margin-bottom:10px;"><a style="margin-right:10px;" class="buton ertele">Ertele</a><a class="buton sil">Sil</a></span>
 		</div>
 	</div>
 

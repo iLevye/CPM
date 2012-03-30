@@ -79,18 +79,21 @@ class Task extends CI_Model{
         $this->definition->html = TRUE;
         $this->load->helper('date');
 
-        $this->db->select("create_name, task_create_date, task_status, task_feedback, task_id, task_name, task_plannedTime, usedTime, task_finish, task_not, task_start, task_real_start, wait, task_real_finish");
+        $this->db->select("create_name, task_create_date, task_status, task_feedback, task_id, task_name, task_plannedTime, usedTime, task_finish, task_not, task_start, task_real_start, task_real_finish");
         $this->db->from("vw_gettasks");
 
         if($this->task_create_user_id != ""){
-            $this->db->where('task_create_user_id', $this->task_create_user_id);
-        }else{
+            $this->db->where("task_create_user_id = '" . $this->task_create_user_id . "' or (task_feedback_user_id = '" . $this->task_feedback_user_id . "' and task_feedback = '" . $this->task_feedback . "')");
+        }
+
+        if($this->task_user_id != ""){
             $this->db->where('user_id', $this->task_user_id);
         }
         
         $this->db->order_by("task_status");
         $sql = $this->db->get();
-        
+        //echo $this->db->last_query();
+
         $row = $sql->result_array();
         //print_r($row);
 
@@ -101,21 +104,21 @@ class Task extends CI_Model{
             $r['task_finish_t'] = datepicker_en($r['task_finish']);
             $r['task_start_t'] = datepicker_en($r['task_start']);
 
-            if($r['task_status'] == 0  && $this->task_create_user_id == ""){
+            if($r['task_status'] == 0  && $this->task_user_id != ""){
                 $r['buttons'] = '<img class="task_finish_buton" src="images/finish.png" /><img class="task_play_buton" src="images/play.png" />';
             }
             
-            if($r['wait'] == "1"){
+            if($r['task_status'] == "3"){
                 $r['buttons'] = "<img src='images/wait.gif' style='margin-right:28px;'/>";
             }
 
             
-            if($r['task_status'] == 1 && $this->task_create_user_id == ""){
+            if($r['task_status'] == "1" && $this->task_user_id != ""){
                 $r['buttons'] = '<img class="task_finish_buton" src="images/finish.png" /><img class="task_pause_buton" src="images/pause.png" />';
             }
         
 
-            if($r['task_status'] == 2){
+            if($r['task_status'] == 4){
                 $r['buttons'] = '<img src="images/status-finished.png" style="width:24px; margin-right:24px;"/>';
             }
 

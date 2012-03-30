@@ -39,9 +39,11 @@ class Home extends CI_Controller{
         echo $this->Task->finish_task();
     }
 
-    public function tasks_by_me(){
+    public function following_task(){
         $this->load->model('Task');
         $this->Task->task_create_user_id = $this->session->userdata('user_id');
+        $this->Task->task_feedback_user_id = $this->session->userdata('user_id');
+        $this->Task->task_feedback = 2;
         echo json_encode($this->Task->get_tasks());
     }
 
