@@ -40,7 +40,7 @@ span.border {margin-top: 12px; height: 8px; float:left; width:100%; background:u
 .alert-detail {width:100%;float:left; border:1px solid #e2e2e2; border-top:none; display: none;}
 .alert-detail p {font-family:Arial; color:#787373; font-size:12px; margin:20px;}
 .alert-detail img {margin-left: 45%;}
-.alert .ozet {overflow:hidden; height:18px;cursor:pointer;margin-left:14px; font-family:sans-serif; font-size:13px; margin-top:12px;}
+.alert .ozet {overflow:hidden; height:14px;cursor:pointer;margin-left:14px; font-family:sans-serif; font-size:13px; margin-top:12px;}
 .alert .ozet span {color:#6B6A6A;}
 .alert .etiket {font-family:Arial; font-size:13px; color:white; padding: 5px; margin:6px; background:url("../images/hatirlatma-etiket-bg.png"); float:right;}
 #logo {float:left; margin-left: 41px;margin-right: 78px;margin-top: 15px;}

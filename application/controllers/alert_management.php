@@ -15,6 +15,7 @@ class Alert_management extends CI_Controller{
 			echo "-1";
 			return false;
 		}
+		$this->Alert->alert_tag = "Özel";
 		$this->Alert->alert_user_id = $this->session->userdata('user_id');
 		$this->Alert->alert_text = $this->input->post('alert_text');
 		$this->Alert->alert_datetime = datepicker($this->input->post('alert_datetime'));
@@ -25,6 +26,22 @@ class Alert_management extends CI_Controller{
 		$this->load->model('Alert');
 		$this->Alert->alert_user_id = $this->session->userdata('user_id');
 		echo json_encode($this->Alert->get_alerts());
+	}
+
+	function delete(){
+		$this->load->model('Alert');
+		$this->Alert->alert_id = $this->input->post('alert_id');
+		$this->Alert->alert_user_id = $this->session->userdata('user_id');
+		echo $this->Alert->delete();
+	}
+
+	function snooze(){
+		$this->load->model('Alert');
+		$this->load->helper("date");
+		$this->Alert->alert_id = $this->input->post('alert_id');
+		$this->Alert->alert_user_id = $this->session->userdata('user_id');
+		$this->Alert->alert_datetime = datepicker($this->input->post('snooze_date'));
+		echo $this->Alert->snooze();
 	}
 }
 ?>

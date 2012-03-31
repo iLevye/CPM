@@ -111,7 +111,6 @@ class Personel_management extends CI_Controller {
     }
 
     public function get_tasks($user_id){
-
         $this->load->library("datatables");
         $this->load->library("definition");
         $this->load->helper("date");

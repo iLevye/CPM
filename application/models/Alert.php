@@ -16,13 +16,26 @@ class Alert extends CI_Model{
 		$this->db->where('alert_user_id', $this->alert_user_id);
 		$this->db->where("alert_datetime < NOW()");
 		$this->db->where("alert_confirm", "0");
+		$this->db->order_by("alert_id", "desc");
 		$sql = $this->db->get('Alert');
-		foreach($sql->result_array() as $row){
-			$row['tag'] = "Özel";
-			$row['alert_ozet'] = substr($row['alert_text'], 0, 70);
-			$cikti[] = $row;
-		}
-		return $cikti;
+		return $sql->result_array();
 	}
+
+	function delete(){
+		$this->db->where("alert_user_id", $this->alert_user_id);
+		$this->db->where("alert_id", $this->alert_id);
+		$update['alert_confirm'] = "1";
+		$this->db->update("Alert", $update);
+		return $this->db->affected_rows();
+	}
+
+	function snooze(){
+		$this->db->where("alert_id", $this->alert_id);
+		$this->db->where('alert_user_id', $this->alert_user_id);
+		$update['alert_datetime'] = $this->alert_datetime;
+		$this->db->update("Alert", $update);
+		return $this->db->affected_rows();
+	}
+
 }
 ?>

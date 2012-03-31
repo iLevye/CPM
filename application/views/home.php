@@ -51,6 +51,48 @@
 		gorevler();
 
 		// eventlar 
+
+		$(".alert_sil").live('click', function(){
+			var alert_id = $(this).parents(".alert-detail").attr("alert_id");
+			$.post(base_url + "alert_management/delete/", {
+				alert_id : alert_id
+			}, function(data){
+				if(data > 0){
+					alert("Bildirim silindi.");
+					$(".alert-detail[alert_id=" + alert_id + "]").slideUp(800);
+					$(".alert[alert_id=" + alert_id + "]").slideUp(800);
+					setTimeout("hatirlatmalar();", 800);
+				}
+			});
+		});
+
+		$(".alert_ertele").live('click', function(){
+			var alert_id = $(this).parents(".alert-detail").attr("alert_id");
+			$("#hatirlatma_erteleme").dialog({
+				model:true,
+				width:'600px',
+				buttons:{
+					"Vazgeç" : function(){
+						$(this).dialog("close");
+					},
+					"Ertele" : function(){
+						$.post(base_url + "alert_management/snooze/", {
+							alert_id : alert_id,
+							snooze_date : $("#y_snooze_date").val()
+						}, function(data){
+							if(data > 0){
+								alert("Bildirim " + $("#y_snooze_date").val() + " tarihinde yeniden hatırlatılacak.");
+								$("#hatirlatma_erteleme").dialog("close");
+								$(".alert-detail[alert_id=" + alert_id + "]").slideUp(800);
+								$(".alert[alert_id=" + alert_id + "]").slideUp(800);
+								setTimeout("hatirlatmalar();", 800);
+							}
+						});
+					}
+				}
+			});
+		});
+
 		$("#yeni_hatirlatma_buton").live('click', function(){
 			$("#yeni_hatirlatma").dialog({
 				model:true,
@@ -148,14 +190,30 @@
 
 		$(".task_revised_buton").live('click', function(){
 			task_id = $(this).parents('.kalip').attr("task_id");
-			$.post(base_url + "home/revised_task", {task_id : task_id}, function(data){
-				if(data > 0){
-					alert("Revize gönderildi");
-					takip_ettiklerim();
-				}else{
-					alert("Bir sorun oluştu");
+			$("#revize_notu").dialog({
+				width: "660px", 
+				buttons:{
+					"Vazgeç" : function(){
+						$(this).dialog("close");
+					},
+					"Gönder" : function(){
+						if($("#y_revize_not").val().length < 2){
+							alert("Revize notu girmelisiniz.");
+							return false;
+						}
+						$.post(base_url + "home/revised_task", {task_id : task_id, revised_note : $("#y_revize_not").val()}, function(data){
+							if(data > 0){
+								$("#revize_notu").dialog("close");
+								alert("Revize gönderildi");
+								takip_ettiklerim();
+							}else{
+								alert("Bir sorun oluştu");
+							}
+						});
+					}
 				}
 			});
+			
 			return false;
 		});
 
@@ -178,6 +236,12 @@
 		$(".not_gonder_buton").live('click', function(){
 			task_id = $(this).attr('task_id');
 			note = $(".yeni_not[task_id=" + task_id + "]").val();
+			if(note == "Yeni not eklemek için tıklayın."){
+				if(<?=$this->session->userdata('user_id')?> == 34){
+					alert("Derdin ne evladım ?");
+				}
+				return false;
+			}
 			$.post(base_url + "project_management/add_task_note", {
 				task_id : task_id,
 				note : note
@@ -253,8 +317,17 @@
 	</div>
 </div>
 
+<div id="revize_notu" style="display:none" title="Revize Notu">
+	<table class="input_table display" style="width:564px;">
+		<tr>
+			<td>Revize notunuz</td>
+			<td><textarea id="y_revize_not" style="width:300px; height:80px"></textarea></td>
+		</tr>
+	</table>
+</div>
+
 <div id="finish_task" style="display:none;">
-	<p>Görevin bittiğini bildirdiğinizde 
+	<p>Görevin bittiğini bildirdiğinizde onay kullanıcısına görevi onaylaması için bir istek gönderilir.</p>
 </div>
 
 <div class="blok" style="width:51%; margin-left:2%; margin-right:2%;">
@@ -276,18 +349,26 @@
 	</table>
 </div>
 
+<div id="hatirlatma_erteleme" style="display:none" title="Daha sonra hatırlat <span class='border'></span>">
+	<table class="input_table display" style="width:564px;">
+		<tr>
+			<td>Hatırlatma Tarihi</td><td><input type="text" id="y_snooze_date" class="tarih" /></td>
+		</tr>
+	</table>
+</div>
+
 <div class="blok" style="width:41%; margin-left:2%; margin-right:2%;">
-	<h1>Hatırlatmalar</h1>
+	<h1>Bildirimler</h1>
 	<a id="yeni_hatirlatma_buton" class="buton" style="float:right; margin-top:-6px">Yeni Hatırlatma</a>
 	<span class="border"></span>
 	<div id="hatirlatma_template" style="display:none">
-		<div class="alert first">
-			<div class="etiket">{$tag}</div><div class="ozet">{$alert_ozet}...</div>
+		<div class="alert first" alert_id="{$alert_id}">
+			<div class="etiket">{$alert_tag}</div><div class="ozet">{$alert_text}...</div>
 		</div>
 		
 		<div class="alert-detail" alert_id="{$alert_id}">
 			<p>{$alert_text}</p>
-			<span style="float:right; margin-right:10px; margin-bottom:10px;"><a style="margin-right:10px;" class="buton ertele">Ertele</a><a class="buton sil">Sil</a></span>
+			<span style="float:right; margin-right:10px; margin-bottom:10px;"><a style="margin-right:10px;" class="buton alert_ertele">Sonra Hatırlat</a><a class="buton alert_sil">Sil</a></span>
 		</div>
 	</div>
 

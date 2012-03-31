@@ -74,6 +74,16 @@ class Task extends CI_Model{
         return $row[0]['confirmed'];
     }
 
+    function revised_task($note){
+        $dizi = array($this->task_id, $this->task_feedback_user_id, $note);
+        //print_r($dizi);
+        $sql = $this->db->query("call sp_revisedTask(?, ?, ?, @a);", $dizi);
+        //echo $this->db->last_query();
+        $sql = $this->db->query("Select @a as revised;");
+        $row = $sql->result_array();
+        return $row[0]['revised'];
+    }
+
     function add_note(){
         $sql = $this->db->get_where('Task', array('task_id' => $this->task_id));
         $row = $sql->result_array();
