@@ -13,7 +13,7 @@ class Customer_management extends CI_Controller{
 		$this->load->view('customer');
 	}
 	
-	public function get_list(){
+	public function get_list($filter_type = false, $arg1 = false, $arg2 = false){
             $this->load->library('datatables');
             $this->datatables->select("customer_id, customer_address, customer_www,customer_email, customer_mno, customer_title, (select agent_name from Agent where agent_customer_id = customer_id limit 1), customer_phone");
             $this->datatables->from("Customer");
@@ -22,7 +22,21 @@ class Customer_management extends CI_Controller{
             $this->datatables->unset_column("customer_email");
             $this->datatables->unset_column("customer_address");
             $this->datatables->edit_column("customer_mno", "<span hebe='$3 $4 $5' row_id='$1'>$2</span>", "customer_id, customer_mno, customer_www, customer_email, customer_address");
+            
+            if($filter_type == "status"){
+            	$this->datatables->where("customer_status", $arg1);
+            }elseif($filter_type == "note"){
+            	$this->load->helper("date");
+            	$arg1 = datepicker(urldecode($arg1));
+            	$arg2 = explode(',', $arg2);
+            	//print_r($arg2);
+            	foreach($arg2 as $a){
+            		$where .= " and customerNote_tags like '%$a%' ";
+            	}
+            	$this->datatables->where("customer_id in (select customerNote_customer_id from Customernote where customerNote_date > '$arg1' $where )");
+            }
             echo $this->datatables->generate();
+            //echo $this->datatables->last_query();
         }
 	
 	

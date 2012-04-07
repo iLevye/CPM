@@ -6,8 +6,11 @@
     table#musteri_bilgileri tr td .editer {display:none;}
     #note {border:1px solid gray; border-radius: 3px; background:#ff4545; font-weight:thin; font-size:12px; color:white; font-family:sans-serif; padding:10px;}
 </style>
+<script src="<?=base_url()?>js/jquery.uploadify.v2.1.4.min.js"></script>
+<script src="<?=base_url()?>js/swfobject.js"></script>
 
 <script type="text/javascript">
+var dosyalar = "";
     $(document).ready(function(){
         $('#teklifler_tablo').dataTable( {
             "bProcessing": true,
@@ -23,6 +26,30 @@
                     alert("Teklif oluşturuldu.")
                 }
             }})
+        });
+
+        $('#uploadify').uploadify({
+            'buttonText' : "Teklif Dosyasi",
+            'uploader'  : base_url + 'js/uploadify.swf',
+            'script'    : base_url + 'file_management/upload_file/offer',
+            'cancelImg' : base_url + '/images/cancel.png',
+            'folder'    : '',
+            'auto'      : true,
+            'multi'     : true,
+            'queueID'        : 'custom-queue',
+            'queueSizeLimit' : 10,
+            'simUploadLimit' : 10,
+            'sizeLimit'   : 102400,
+            'removeCompleted': false,
+            'onComplete' : function(event, ID, fileObj, response, data){
+                    if(dosyalar == ""){
+                        dosyalar = response;
+                    }else{
+                        dosyalar += "," + response;
+                    }
+                    html = $("#yuklenen_dosyalar").html();
+                    $("#yuklenen_dosyalar").html(html + "<li>" + response + "</li>");
+                }
         });
 
         $("#y_musteri_tip").live('change', function(){
@@ -75,13 +102,25 @@
                         
                         <tr>
                             <td style="width:80px;">
-                                Satış Temsilcisi
+                                Teklifi İleten
                             </td>
                             <td style="width:350px;">
                                 <input type="text" disabled="disabled" value="<?=$this->session->userdata('user_name');?>"/>
                             </td>
                         </tr>
 
+                        <tr>
+                            <td>Teklif dosyası</td>
+                            <td>
+                                <input type="file" id="uploadify" />
+                            </td>
+                        </tr>
+
+                        <tr id="uploaded_files">
+                            <td>Yüklenen Dosyalar</td>
+                            <td><ul id="yuklenen_dosyalar"></ul></td>
+                        </tr>
+                        
                         <tr>
                             <td style="width:80px;">
                                 Teklif Tarihi
