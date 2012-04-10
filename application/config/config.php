@@ -1,5 +1,14 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+
+/*
+Dosyaların yüklendiği dizin
+
+*/
+
+$config['upload_path'] = "atacrm/uploaded_files";
+
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
