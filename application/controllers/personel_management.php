@@ -36,6 +36,8 @@ class Personel_management extends CI_Controller {
         $this->User->user_title = $this->input->post('title');
         $this->User->user_address = $this->input->post('adres');
         $this->User->user_department_id = $this->input->post('departman');
+        $this->User->user_access = json_encode($this->input->post('yetkiler'));
+
         $this->User->insert();
         if (intval($this->User->user_id)) {
             echo 1;
@@ -52,9 +54,17 @@ class Personel_management extends CI_Controller {
         echo $this->User->edit();
     }
 
+    public function edit_access($id){
+        $this->load->model('User');
+        $this->User->user_id = $id;
+        $this->User->user_access = json_encode($this->input->post('yetkiler'));
+        echo $this->User->edit_access();
+    }
+
     public function personel_info($id) {
         $this->User->user_id = $id;
         $this->User->get_user(false);
+        $this->User->user_access = json_decode($this->User->user_access);
         echo json_encode($this->User);
     }
 

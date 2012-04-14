@@ -11,6 +11,7 @@ class User extends CI_Model {
     public $user_gsm;
     public $user_title;
     public $user_department_id;
+    public $user_access;
 
     function __construct() {
         parent::__construct();
@@ -34,18 +35,21 @@ class User extends CI_Model {
         return $this->db->affected_rows();
     }
 
+    /*
+    bu fonksiyon kullanılmıyor. insert fonksiyonunu kullanabilirsiniz
     public function create() {
         $this->db->insert('User', $this);
         if ($this->db->insert_id()) {
-            $this->id = $this->db->insert_id();
+            $this->user_id = $this->db->insert_id();
             return true;
         }
     }
+    */
 
     public function get_user($basic = true, $by = "user_id") {
 
         if ($basic) {
-            $this->db->select("user_id, user_email, user_name, user_title");
+            $this->db->select("user_id, user_email, user_name, user_title, user_access");
         } else {
             $this->db->select("User.*, department_name");
             $this->db->join('Department', 'user_department_id = department_id', "left");
@@ -64,7 +68,10 @@ class User extends CI_Model {
         foreach ($row[0] as $rk => $rv) {
             $this->$rk = $rv;
         }
-
+        if($basic){
+            $this->user_access = json_decode($this->user_access);    
+        }
+    
         unset($this->user_password);
     }
 
@@ -104,6 +111,13 @@ class User extends CI_Model {
         $this->db->insert('User', $this);
         $this->user_id = $this->db->insert_id();
         return;
+    }
+
+    public function edit_access(){
+        $update['user_access'] = $this->user_access;
+        $this->db->where("user_id", $this->user_id);
+        $this->db->update("User", $update);
+        return $this->db->affected_rows();
     }
 
 }

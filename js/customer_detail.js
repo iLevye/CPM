@@ -95,70 +95,57 @@ function hizmet_select(){
     {
         case "1": // domain
             $(".domain_tr, .hosting_tr").show();
-            $(".date1").html("Sözleşme Tarihi");
-            $(".date2").html("Domain Kayıt Bitiş Tarihi");
             hostingler();
             break;
         case "2": // hosting
             $(".domain_tr, .host_data_tr, .mysql_olustur_tr").show();
-            $(".date1").html("Hosting Başlangıç Tarihi");
-            $(".date2").html("Hosting Bitiş Tarihi");
             break;
         case "3": // ATACFS
             $(".domain_tr, .atacfs_kota_tr").show();
-            $(".date1").html("Sözleşme Başlangıç Tarihi");
-            $(".date2").html("Sözleşme Bitiş Tarihi");
             break;
         case "4": // google adwords
             $(".domain_tr").show();
-            $(".date1").html("Sözleşme Başlangıç Tarihi");
-            $(".date2").html("Sözleşme Bitiş Tarihi");
             break;
         case "5": // google SEO
-            $(".proje_tr, .proje_ozeti_tr").show();
+            $(".proje_tr, .proje_ozeti_tr, .proje_tarihi").show();
             $(".yeni_proje_tr span").html("(Domainler)");
             $(".proje_ozeti_tr span").html("<br>(Anahtar kelimeler ve hedeflenen sıralar)");
             projeler();
             break;
         case "6": // Iphone yazılım
-            $(".proje_tr, .proje_ozeti_tr").show();
+            $(".proje_tr, .proje_ozeti_tr, .proje_tarihi").show();
             $(".yeni_proje_tr span").html("(Domainler)");
             $(".proje_ozeti_tr span").html("<br>(Uygulama hakkında kısa bilgi)");
             projeler();
             break;
         case "7": // Android Yazılım
-            $(".proje_tr, .proje_ozeti_tr").show();
+            $(".proje_tr, .proje_ozeti_tr, .proje_tarihi").show();
             $(".yeni_proje_tr span").html("(Domainler)");
             $(".proje_ozeti_tr span").html("<br>(Uygulama hakkında kısa bilgi)");
             projeler();
             break;
         case "8": // Web Sitesi
-            $(".proje_tr, .proje_ozeti_tr").show();
+            $(".proje_tr, .proje_ozeti_tr, .proje_tarihi").show();
             $(".yeni_proje_tr span").html("(Domainler)");
             $(".proje_ozeti_tr span").html("<br>(Tasarım hakkında genel bilgi / Varsa özel istekler)");
 
-            $('.date1').html("Sözleşme Tarihi");
-            $('.date2').html("Proje Teslim Tarihi");
             projeler();
             break;
         case "9": // Web Eklenti
-            $(".proje_tr, .proje_ozeti_tr").show();
+            $(".proje_tr, .proje_ozeti_tr, .proje_tarihi").show();
             $(".yeni_proje_tr span").html("(Domainler)");
             $(".proje_ozeti_tr span").html("<br>(Yapılacak güncellemeler hakkında genel bilgi)");
             projeler();
             break;
         case "10": // E-ticaret
-            $(".date1").html("Hizmet Başlangıç Tarihi");
-            $(".date2").html("Hizmet Bitiş Tarihi");
             $(".eticaret_tr, .domain_tr").show();
             break;
         case "0": // Diğer !!
             $(".domain_tr, .proje_tr").show();
-                        
             projeler();
             break;	
         default:
-            location.href = base_url + "error_report/send/undefined service key";
+            //location.href = base_url + "error_report/send/undefined service key";
     }
 		
 }
@@ -173,11 +160,124 @@ function proje_select(){
     }
 }
 
+function contracts(selected){
+    $.getJSON(base_url + "contract_management/get_contracts/" + customer_id, function(JSON){
+        $("#y_sozlesme_id, #y_odeme_sozlesmeler").html("");
+        $("#y_sozlesme_id, #y_odeme_sozlesmeler").append("<option value='-1'>Sözleşme Seçmelisiniz</option>");
+        var str = "";
+        for(var i in JSON){
+            str = "";
+            str += "<option value='";
+            str += JSON[i]['contract_id'] + "'";
+
+            if(JSON[i]['contract_id'] == selected){
+                str += " selected='selected' ";
+            }
+
+            str += ">" + JSON[i]['contract_name']+ "</option>";
+            $("#y_sozlesme_id, #y_odeme_sozlesmeler").append(str);
+        }
+        $("#y_sozlesme_id").append("<option value='sozlesme_olustur'>Yeni Sözleşme</option>");
+
+    });
+}
+
+
 
 $(document).ready(function(){
 
     notlar(customer_id);
 
+    contracts("-1");
+
+    $("#yeni_sozlesme_buton").live('click',function(){
+        
+        $.getJSON(base_url + "contract_management/get_services/" + customer_id, function(JSON){
+            var str = "";
+            for(var i in JSON){
+                str += "<tr hizmet_id='" + JSON[i]['customerService_id'] + "'>";
+                str += "<td><input type='checkbox'></td>";
+                str += "<td>" + JSON[i]['service_name'] + "</td>";
+                str += "<td><input type='text' class='tarih y_start_date' value='" + today + "'></td>";
+                str += "<td><input type='text' class='tarih y_finish_date'></td>";
+                str += "<td><input type='text' class='y_ucret'></td>";
+                str += "<td><input type='text' class='y_kdv'></td>";
+                str += "<td><input type='text' class='y_toplam_tutar'></td>";
+                str += "<td><input type='text' class='y_alinan_tutar'></td>";
+                str += "<td><input type='text' class='y_kalan_tutar'></td>";
+                str += "</tr>";
+            }
+            $("#y_sozlesme_hizmetler tbody").html(str);
+            $("input.tarih").datepicker({ dayNames: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'], 
+                    monthNames : ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+                    monthNamesShort : ['Ock', 'Şbt', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Agu', 'Eyl', 'Ekm', 'Kas', 'Ara'],
+                    dayNamesMin : ['Pz', 'Pt', 'Sl', 'Çr', 'Pr', 'Cm', 'Ct'],
+                    dateFormat : "dd MM yy",
+                    firstDay : 1
+                });
+        });
+        
+        
+
+            temsilciler("#y_sozlesme_user_id", session_user_id);
+            $("#yeni_sozlesme").dialog({
+                model:true,
+                width:1036,
+                buttons:{
+                    "Vazgeç" : function(){
+                        $(this).dialog("close");
+                    },
+                    "Oluştur" : function(){
+                        hizmetler = {};
+                        $("#y_sozlesme_hizmetler tbody tr").each(function(index, element){
+                            if($(element).find("input[type=checkbox]").is(":checked")){
+                                var hizmet_id = $(element).attr("hizmet_id");
+                                hizmet = {};
+                                hizmet.start_date = $(element).find(".y_start_date").val();
+                                hizmet.finish_date = $(element).find(".y_finish_date").val();
+                                hizmet.ucret = $(element).find(".y_ucret").val();
+                                hizmet.kdv = $(element).find(".y_kdv").val();
+                                hizmet.toplam_tutar = $(element).find(".y_toplam_tutar").val();
+                                hizmet.alinan_tutar = $(element).find(".y_alinan_tutar").val();
+                                hizmet.kalan_tutar = $(element).find(".y_kalan_tutar").val();
+                                hizmet.hizmet_id = hizmet_id;
+                                if(hizmet.start_date == "" || hizmet.finish_date == "" || hizmet.ucret == "" || hizmet.kdv == "" || hizmet.toplam_tutar== "" ){
+                                    alert("Seçtiğiniz hizmetlerin başlangıç, bitiş tarihlerini ve ücret bilgilerini boş bırakamazsınız.");
+                                    return false;
+                                }
+                                hizmetler["hizmet_" + hizmet_id] = hizmet;
+                            }
+                        });
+                        $.post(base_url + "contract_management/new_contract/", {
+                            customer_id : customer_id,
+                            date : $("#y_sozlesme_tarihi").val(),
+                            user_id : $("#y_sozlesme_user_id").val(),
+                            name : $("#y_sozlesme_adi").val(),
+                            services : hizmetler
+                        }, function(data){
+                            if(data > 0){
+                                alert("Sözleşme oluşturuldu.");
+                                $("#yeni_sozlesme").dialog("close");
+                                contracts(data);
+                            }
+                        });
+                        
+                    }
+                }
+            });
+    });
+
+    $("#y_sozlesme_tarihi").datepicker({
+         dayNames: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'], 
+                    monthNames : ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+                    monthNamesShort : ['Ock', 'Şbt', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Agu', 'Eyl', 'Ekm', 'Kas', 'Ara'],
+                    dayNamesMin : ['Pz', 'Pt', 'Sl', 'Çr', 'Pr', 'Cm', 'Ct'],
+                    dateFormat : "dd MM yy",
+                    firstDay : 1,
+        'onSelect' : function(datetext, inst){
+            $("#y_sozlesme_adi").val($("#y_sozlesme_tarihi").val() + " Sözleşmesi");
+        }
+    });
 
     $("#y_domain").autocomplete({
         source: base_url + "customer_management/get_domains/",
@@ -427,6 +527,14 @@ $(document).ready(function(){
                     "bRetrieve": true,
                     "sAjaxSource": base_url + "customer_management/agents/" + customer_id
                 } );
+                break;
+            case 4: // Firma Yetkilileri
+                $('#contracts_table').dataTable( {
+                    "bProcessing": true,
+                    "bServerSide": true,
+                    "bRetrieve": true,
+                    "sAjaxSource": base_url + "contract_management/get_contract_list/" + customer_id
+                } );
         }
                 
     });
@@ -442,7 +550,8 @@ $(document).ready(function(){
         "bProcessing": true,
         "bServerSide": true,
         "bRetrieve": true,
-        "bPaginate": false,
+        "bPaginate": true,
+        "iDisplayLength" : 100000,
         "sAjaxSource": base_url + "customer_management/services/" + customer_id,
         "fnDrawCallback" : function() {
             $("#hizmetler_tablo span.hizmet_baslik").parents("tr").css({"border-bottom":"2px solid #b5dfa3", "color":"#41742c", "background" : "#ddfad1"});
@@ -452,9 +561,30 @@ $(document).ready(function(){
 
     // yeni ödeme penceresi
     $("#yeni_odeme_buton").live('click', function(){
+        contracts("-1");
         $("#yeni_odeme").dialog({
             modal:true, 
-            width: "500px"
+            width: "500px",
+            buttons: {
+                "Vazgeç" : function(){
+                    $("#yeni_odeme").dialog("close");
+                },
+                "Ekle" : function(){
+                    $.post(base_url + "customer_management/new_payment/", {
+                        customer_id : customer_id,
+                        contract_id : $("#y_odeme_sozlesmeler").val(),
+                        odenen : $("#y_odeme_tutar").val(),
+                        tarih : $("#y_odeme_tarih").val(),
+                        kanal : $("#y_odeme_odeme_kanali").val(),
+                        cek_vade : $("#y_odeme_cek_vade").val()
+                    }, function(data){
+                        if(data > 0){
+                            alert("Ödeme eklendi");
+                            $("#yeni_odeme").dialog("close");
+                        }
+                    });
+                }
+            }
         });
         return false;
     });
@@ -462,9 +592,9 @@ $(document).ready(function(){
     $("#odeme_kanali").live('change', function(){
         var odeme_kanali = $("#odeme_kanali").val();
         if(odeme_kanali == "3"){
-            $("#cek_vaade_tr").fadeIn();
+            $("#cek_vade_tr").fadeIn();
         }else{
-            $("#cek_vaade_tr").fadeOut();
+            $("#cek_vade_tr").fadeOut();
         }
     });
 
@@ -529,20 +659,24 @@ $(document).ready(function(){
 		
 
     // kdv hesaplama
-    $("#y_kdv, #y_ucret").live('keyup', function(){
-        $("#y_toplam_tutar").val( Math.round( (parseFloat($("#y_ucret").val() * ($("#y_kdv").val() / 100)) + parseFloat($("#y_ucret").val())) * 100 )  / 100);
-        if($("#y_toplam_tutar").val() == "NaN"){
-            $("#y_toplam_tutar").val("0");
+    $(".y_kdv, .y_ucret").live('keyup', function(){
+        var parent = $(this).parents("tr");
+        parent.find(".y_toplam_tutar").val( Math.round( (parseFloat(parent.find(".y_ucret").val() * (parent.find(".y_kdv").val() / 100)) + parseFloat(parent.find(".y_ucret").val())) * 100 )  / 100);
+        if(parent.find(".y_toplam_tutar").val() == "NaN"){
+            parent.find(".y_toplam_tutar").val("0");
         }
     });
 
-    $("#y_toplam_tutar").live('keyup', function(){
-        $("#y_ucret").val( Math.round(($("#y_toplam_tutar").val() / 118 * 100) * 100) / 100 );
+    $(".y_toplam_tutar").live('keyup', function(){
+        var parent = $(this).parents("tr");
+        parent.find(".y_ucret").val( Math.round((parent.find(".y_toplam_tutar").val() / (118) * 100) * 100) / 100 );
+        parent.find(".y_kdv").val("18");
     });
 
     // kalan tutar hesaplama
-    $("#y_alinan_tutar").live("keyup", function(){
-        $("#y_kalan_tutar").val($("#y_toplam_tutar").val() - $("#y_alinan_tutar").val());
+    $(".y_alinan_tutar").live("keyup", function(){
+        var parent = $(this).parents("tr");
+        parent.find(".y_kalan_tutar").val(parent.find(".y_toplam_tutar").val() - parent.find(".y_alinan_tutar").val());
     });
 
     // hizmete göre inputlar
@@ -577,10 +711,12 @@ $(document).ready(function(){
             mysql:			mysql,
             mysql_dbname:	$("#y_mysql_dbname").val(),
             mysql_username: $("#y_mysql_username").val(),
-            mysql_pass:		$("#y_mysql_pass").val()
+            mysql_pass:		$("#y_mysql_pass").val(),
+            contract_id:    $("#y_sozlesme_id").val()
 						
         }, function(data){
             alert(data);
+            $("#yeni_hizmet").dialog("close");
         });
         return false;
     });
@@ -717,6 +853,9 @@ $(document).ready(function(){
            }
         });
     });
+
+
+
 
 		
 		

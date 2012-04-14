@@ -7,10 +7,13 @@
     #customer_title input {font-size:22px; width:100%;}
     #customer_title {width:100%;}
     #action_uncheck, #action_check{position:absolute; top:0px; right:0px; cursor: pointer; float:right; width:30px;top: -39px;right: -23px;}
+    #y_sozlesme_hizmetler td input[type=text] {width:80px;}
+    #y_sozlesme_hizmetler td input.tarih{width:116px;}
 </style>
 
 <script type="text/javascript">
     customer_id = "<?= $customer_id; ?>";
+    session_user_id = <?=$this->session->userdata('user_id');?>;
 </script>
 <? $this->load->javascript("jquery.ajaxTemplate"); ?>
 <? $this->load->javascript('customer_detail'); ?>
@@ -148,6 +151,7 @@
                         <li><a href="#odemeler" id="odemeler_tab">Tahsilatlar</a></li>
                         <li><a href="#projeler" id="projeler_tab">Projeler</a></li>
                         <li><a href="#yetkililer" id="yetkililer_tab">Yetkililer</a></li>
+                        <li><a href="#sozlesmeler" id="sozlesmeler_tab">Sözleşmeler</a></li>
                     </ul>
 
                     <div id="hizmetler" style="padding:0px; float:left; width:100%;">
@@ -188,16 +192,6 @@
                                         <td><input type="text" id="y_domain" /></td>
                                     </tr>
 
-                                    <tr class="date1_tr">
-                                        <td><span class="date1">Sözleşme Başlangıç Tarihi</span></td>
-                                        <td><input type="text" class="tarih" id="y_date1" value="<?= datepicker_en(date('Y-m-d')) ?>" /></td>
-                                    </tr>
-                                    
-                                    <tr class="date2_tr">
-                                        <td><span class="date2">Sözleşme Bitiş Tarihi :</span></td>
-                                        <td><input type="text" class="tarih" id="y_date2" /></td>
-                                    </tr>
-
                                     <tr class="option proje_tr">
                                         <td>
                                             Proje
@@ -214,11 +208,20 @@
                                         <td><input type="text" id="y_proje_adi" /></td>
                                     </tr>
 
+                                    <tr class="option proje_tarihi">
+                                        <td>Proje Başlangıç Tarihi</td>
+                                        <td><input type="text" class="tarih" id="y_date1"></td>
+                                    </tr>
+
+                                    <tr class="option proje_tarihi">
+                                        <td>Proje Bitiş Tarihi</td>
+                                        <td><input type="text" class="tarih" id="y_date2"></td>
+                                    </tr>
+
                                     <tr class="option proje_ozeti_tr">
                                         <td><p style="float:left;">Proje Özeti <span style="font-size:11px;"></span></p></td>
                                         <td><textarea id="y_proje_ozeti" style="float:left; height:66px"></textarea></td>
                                     </tr>
-
 
                                     <tr class="option host_data_tr">
                                         <td>FTP Kullanıcı Adı</td>
@@ -260,34 +263,6 @@
                                         <td><input type="text" value="0" id="y_site_grubu"/></td>
                                     </tr>
 
-                                    <tr class="sozlesme_tutari_tr">
-                                        <td>Sözleşme Tutarı (TL)</td>
-                                        <td><input id="y_ucret" type="text" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td>KDV (%)</td>
-                                        <td><input id="y_kdv" type="text" value="18" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Toplam Tutar (TL)</td>
-                                        <td><input id="y_toplam_tutar"type="text" value="" /></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Alınan Tutar (TL)</td>
-                                        <td><input id="y_alinan_tutar"type="text" value="" /></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Kalan Tutar (TL)</td>
-                                        <td><input id="y_kalan_tutar"type="text" value="" readonly="readonly" /></td>
-                                    </tr>
-
-                                    <tr class="">
-                                        <td><p style="float:left;">Sözleşme Notu</p></td>
-                                        <td><textarea id="y_not" style="float:left; width:230px; height:60px;"></textarea></td>
-                                    </tr>
-
                                     <tr style="border-top:2px solid gray; border-bottom: 2px solid gray;"class="option mysql_olustur_tr">
                                         <td>MySql Veritabanı</td>
                                         <td>
@@ -326,8 +301,6 @@
                                     <th	style="width:140px;">Hizmet Tutarı (TL)</th>
                                     <th style="">KDV (TL)</th>
                                     <th style="">Toplam (TL)</th>
-                                    <th style="width:140px;">Alınan Tutar (TL)</th>
-                                    <th style="width:140px;">Kalan Tutar (TL)</th>
                                     <th style="width:150px;">Başlangıç</th>
                                     <th style="width:150px;">Bitiş</th>
                                     <th >Sunucu</th>
@@ -350,7 +323,6 @@
                                     <th>Hizmet</th>
                                     <th>Ödeme Tarihi</th>
                                     <th>Ödenen Tutar (TL)</th>
-                                    <th>Ödeme Yüzdesi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -363,34 +335,29 @@
                             <table class="input_table display" style="width:400px;">
                                 <tr>
                                     <td>
-                                        Hizmet
+                                        Sözleşme
                                     </td>
                                     <td>
-                                        <select>
-                                            <option>Hosting Başlangıç Paketi</option>				
-                                        </select>
+                                        <select id="y_odeme_sozlesmeler"></select>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Tutar (TL)</td>
-                                    <td><input type="text" /></td>
+                                    <td><input type="text" id="y_odeme_tutar" /></td>
                                 </tr>
                                 <tr>
                                     <td>Ödeme Tarihi</td>
-                                    <td><input type="text" class="tarih" /></td>
+                                    <td><input type="text" class="tarih" id="y_odeme_tarih"/></td>
                                 </tr>
                                 <tr>
                                     <td>Ödeme Kanalı</td>
-                                    <td><select id="odeme_kanali"><option value="1">Havale/EFT</option><option value="2">Kredi Kartı</option><option value="3">Çek</option><option value="0">Diğer</option></select></td>
+                                    <td><select id="y_odeme_odeme_kanali"><option value="1">Havale/EFT</option><option value="2">Kredi Kartı</option><option value="3">Çek</option><option value="0">Diğer</option></select></td>
                                 </tr>
                                 <tr id="cek_vaade_tr" style="display:none;">
                                     <td>Çekin Vadesi</td>
-                                    <td><input type="text" class="tarih" id="cek_vaade" /></td>
+                                    <td><input type="text" class="tarih" id="y_odeme_cek_vade" /></td>
                                 </tr>
-                                <tr>
-                                    <td></td>
-                                    <td><a href="#" class="buton">Ekle</a></td>
-                                </tr>
+
                             </table>
                         </div>
                     </div>
@@ -506,6 +473,105 @@
                                 </tr>
                             </table>
                         </div>
+                    </div>
+
+                    <div id="sozlesmeler" style="padding:0px;">
+                        <a style="float:right;" class="buton" id="yeni_sozlesme_buton">Yeni Sözleşme</a>
+
+                        <table id="contracts_table" class="display clickable" cellspacing="0" cellpadding="0" border="0" style="float:left;">
+                            <thead>
+                                <tr>
+                                    <th>Sözleşme Adı</th>
+                                    <th style="">Müşteri</th>
+                                    <th style="">Sözleşme Tarihi</th>
+                                    <th style="">Satış Temsilcisi</th>
+                                    <th style="">Hizmet Sayısı</th>
+                                    <th style="">Ödenen</th>
+                                    <th style="">Borç</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+
+
+                        <div id="yeni_sozlesme" title="Yeni Sözleşme <span class='border'></span>" style="display:none;">
+
+                            <table class="input_table display" style="width:1000px;">
+                                <tr>
+                                    <td>Sözleşme Tarihi</td>
+                                    <td><input type="text"  id="y_sozlesme_tarihi" /></td>
+
+                                    <td>Satış Temsilcisi</td>
+                                    <td><select id="y_sozlesme_user_id"></select></td>
+
+                                    <td>Sözleşme Adı</td>
+                                    <td><input type="text" id="y_sozlesme_adi" /></td>
+                                </tr>
+
+                                <tr collspan="6">
+                                    <table id="y_sozlesme_hizmetler" class="input_table display">
+                                        <thead>
+                                        <tr style="background:lightgray">
+                                            <td></td>
+                                            <td style="width:120px;">Hizmet</td>
+                                            <td>Başlangıç Tarihi</td>
+                                            <td>Bitiş Tarihi</td>
+                                            <td>Tutar (TL)</td>
+                                            <td>KDV (%)</td>
+                                            <td>Toplam (TL)</td>
+                                            <td>Alınan Tutar</td>
+                                            <td>Kalan Tutar</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+
+                                        
+                                    </table>
+                                </tr>
+                                <!--
+                                <tr class="sozlesme_tutari_tr">
+                                    <td>Sözleşme Tutarı (TL)</td>
+                                    <td><input id="y_ucret" type="text" /></td>
+                                </tr>
+
+                                <tr>
+                                    <td>KDV (%)</td>
+                                    <td><input id="y_kdv" type="text" value="18" /></td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>Toplam Tutar (TL)</td>
+                                    <td><input id="y_toplam_tutar"type="text" value="" /></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Alınan Tutar (TL)</td>
+                                    <td><input id="y_alinan_tutar"type="text" value="" /></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Kalan Tutar (TL)</td>
+                                    <td><input id="y_kalan_tutar"type="text" value="" readonly="readonly" /></td>
+                                </tr>
+
+                                <tr class="date1_tr">
+                                    <td><span class="date1">Hizmet Başlangıç Tarihi</span></td>
+                                    <td><input type="text" class="tarih" id="y_date1" value="<?= datepicker_en(date('Y-m-d')) ?>" /></td>
+                                </tr>
+                                
+                                <tr class="date2_tr">
+                                    <td><span class="date2">Hizmet Bitiş Tarihi :</span></td>
+                                    <td><input type="text" class="tarih" id="y_date2" /></td>
+                                </tr>
+                                -->
+
+                            </table>
+                        </div>
+
                     </div>
                 </div>
     </div>

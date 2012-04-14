@@ -13,7 +13,7 @@ class Customer_management extends CI_Controller{
 		$this->load->view('customer');
 	}
 	
-	public function get_list($filter_type = false, $arg1 = false, $arg2 = false){
+	public function get_list($filter_type = false, $arg1 = false, $arg2 = false, $arg3 = false){
             $this->load->library('datatables');
             $this->datatables->select("customer_id, customer_address, customer_www,customer_email, customer_mno, customer_title, (select agent_name from Agent where agent_customer_id = customer_id limit 1), customer_phone");
             $this->datatables->from("Customer");
@@ -33,7 +33,13 @@ class Customer_management extends CI_Controller{
             	foreach($arg2 as $a){
             		$where .= " and customerNote_tags like '%$a%' ";
             	}
-            	$this->datatables->where("customer_id in (select customerNote_customer_id from Customernote where customerNote_date > '$arg1' $where )");
+            	if($arg3 == "1"){
+            		$in = "in";
+            	}else{
+            		$in = "not in";
+            	}
+
+            	$this->datatables->where("customer_id $in (select customerNote_customer_id from Customernote where customerNote_date > '$arg1' $where )");
             }
             echo $this->datatables->generate();
             //echo $this->datatables->last_query();
@@ -91,7 +97,7 @@ class Customer_management extends CI_Controller{
 			header("Location: " . base_url() . "customer_management/" );
 		}
 		$this->load->model('Customerservice');
-		$data->borc = $this->Customerservice->get_debt();
+		//$data->borc = $this->Customerservice->get_debt();
 		$this->load->view('customer_detail', $data);
 	}
 
@@ -103,26 +109,80 @@ class Customer_management extends CI_Controller{
 	}
 	
 	public function services($customer_id){
+		$this->load->library('datatables');
+		$this->datatables->select('service_name, 
+			(select serviceContract_cost from ServiceContract where serviceContract_service_id = customerService_id order by serviceContract_id desc limit 1) as cost,
+			(select format((serviceContract_cost * serviceContract_taxesPercent / 100), 2) from ServiceContract where serviceContract_service_id = customerService_id order by serviceContract_id desc limit 1) as taxes,
+			(select format((serviceContract_cost * ((serviceContract_taxesPercent / 100) + 1)), 2) from ServiceContract where serviceContract_service_id = customerService_id order by serviceContract_id desc limit 1) as total,
+			(select serviceContract_start from ServiceContract where serviceContract_service_id = customerService_id order by serviceContract_id desc limit 1) as start,
+			(select serviceContract_finish from ServiceContract where serviceContract_service_id = customerService_id order by serviceContract_id desc limit 1) as finish,
+			host_server,
+			host_status, 
+			(CASE customerService_service_id 
+				WHEN 0 THEN customerService_domain
+				WHEN 1 THEN (select domain_name from Domain where domain_id = customerService_domain_id)
+				WHEN 2 THEN (select host_domain from Host where host_id = customerService_hosting)
+				WHEN 3 THEN customerService_domain
+				WHEN 4 THEN customerService_domain
+				WHEN 7 THEN (select project_name from Project where project_id = customerService_project_id)
+				WHEN 8 THEN (select project_name from Project where project_id = customerService_project_id)
+				WHEN 9 THEN (select project_name from Project where project_id = customerService_project_id)
+				WHEN 10 THEN customerService_domain
+			END) as work', false);
+		$this->datatables->from("Customerservice");
+		$this->datatables->join("Service", "service_id = customerService_service_id", "left");
+		$this->datatables->join("Host", "customerService_hosting = host_id", "left");
+		$this->datatables->where("customerService_customer_id", $customer_id);
+
+		//$this->datatables->group_by("customerService_service_id", "desc");
+		$nesne = json_decode($this->datatables->generate());
+		$this->load->helper("date");
+
+		$hizmet = "";
+		foreach($nesne->aaData as $n){
+			if($n[0] != $hizmet){
+				$hizmet = $n[0];
+				$baslik[0] = "<span class='hizmet_baslik'>$hizmet</span>";
+				$baslik[1] = $mno;
+				$baslik[2] = "";
+				$baslik[3] = "";
+				$baslik[4] = "";
+				$baslik[5] = "";
+				$baslik[6] = "";
+				$baslik[7] = "";
+				$baslik[8] = "";
+				$aaData[] = $baslik;
+			}
+
+			$n[4] = datepicker_en($n[4]);
+			$n[5] = datepicker_en($n[5]);
+			if($n[8] != ""){
+				$n[0] = $n[8];
+			}
+			$aaData[] = $n;
+		}
+		$nesne->aaData = $aaData;
+	
+		echo json_encode($nesne);
+
+
+	}
+
+	/*
+	public function services($customer_id){
 		$this->load->helper("date");
 			$aColumns = array('service_name', 'aciklama', 'customerService_cost', 'taxes', 'customerService_totalAmount', 'customerService_paid', 'kalan', 'customerService_start', 'customerService_finish', 'host_server', 'host_status');
 			$sIndexColumn = "customerService_finish";
 			$sTable = "vw_getCustomerServices";
 		
-			/* Database connection information */
+			// Database connection information 
 			$gaSql['user']       = "root";
 			$gaSql['password']   = "root";
 			$gaSql['db']         = "atacrm";
 			$gaSql['server']     = "localhost";
 		
 		
-			/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-			 * If you just want to use the basic configuration for DataTables with PHP server-side, there is
-			* no need to edit below this line
-			*/
-		
-			/*
-			 * MySQL connection
-			*/
+
 			$gaSql['link'] =  mysql_pconnect( $gaSql['server'], $gaSql['user'], $gaSql['password']  ) or
 			die( 'Could not open connection to server' );
 		
@@ -130,9 +190,7 @@ class Customer_management extends CI_Controller{
 			die( 'Could not select database '. $gaSql['db'] );
 			mysql_query("SET NAMES 'utf8'");
             
-			/*
-			 * Paging
-			*/
+
 			$sLimit = "";
 			if ( isset( $_GET['iDisplayStart'] ) && $_GET['iDisplayLength'] != '-1' )
 			{
@@ -141,9 +199,7 @@ class Customer_management extends CI_Controller{
 			}
 		
 		
-			/*
-			 * Ordering
-			*/
+
 			$sOrder = "";
 			if ( isset( $_GET['iSortCol_0'] ) )
 			{
@@ -165,12 +221,7 @@ class Customer_management extends CI_Controller{
 			}
 		
 		
-			/*
-			 * Filtering
-			* NOTE this does not match the built-in DataTables filtering which does it
-			* word by word on any field. It's possible to do here, but concerned about efficiency
-			* on very large tables, and MySQL's regex functionality is very limited
-			*/
+
 			$sWhere = "";
 			if ( isset($_GET['sSearch']) && $_GET['sSearch'] != "" )
 			{
@@ -183,7 +234,7 @@ class Customer_management extends CI_Controller{
 				$sWhere .= ')';
 			}
 		
-			/* Individual column filtering */
+
 			for ( $i=0 ; $i<count($aColumns) ; $i++ )
 			{
 				if ( isset($_GET['bSearchable_'.$i]) && $_GET['bSearchable_'.$i] == "true" && $_GET['sSearch_'.$i] != '' )
@@ -201,10 +252,7 @@ class Customer_management extends CI_Controller{
 			}
 		
 		
-			/*
-			 * SQL queries
-			* Get data to display
-			*/
+
 			$sQuery = "
 			SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns))."
 			FROM   $sTable
@@ -220,7 +268,7 @@ class Customer_management extends CI_Controller{
 			
 			$rResult = mysql_query( $sQuery, $gaSql['link'] ) or die(mysql_error());
 		
-			/* Data set length after filtering */
+			
 			$sQuery = "
 			SELECT FOUND_ROWS()
 			";
@@ -229,7 +277,7 @@ class Customer_management extends CI_Controller{
 		
 			$iFilteredTotal = $aResultFilterTotal[0];
 		
-			/* Total data set length */
+			
 			$sQuery = "
 			SELECT COUNT(".$sIndexColumn.")
 			FROM   $sTable
@@ -239,9 +287,7 @@ class Customer_management extends CI_Controller{
 			$iTotal = $aResultTotal[0];
 		
 		
-			/*
-			* Output
-			*/
+
 			$output = array(
 			"sEcho" => intval($_GET['sEcho']),
 			"iTotalRecords" => $iTotal,
@@ -256,12 +302,12 @@ class Customer_management extends CI_Controller{
 				{
 					if ( $aColumns[$i] == "version" )
 						{
-					/* Special output formatting for 'version' column */
+					
 							$row[] = ($aRow[ $aColumns[$i] ]=="0") ? '-' : $aRow[ $aColumns[$i] ];
 						}
 					else if ( $aColumns[$i] != ' ' )
 						{
-							/* General output */
+							
 							substr(@$aRow[$aColumns[$i]], 0, 1);
 							if($i < count($aColumns) - 2 && $i >= count($aColumns) - 4){
 								//$row[] = $aRow[$aColumns[$i]];
@@ -317,14 +363,18 @@ class Customer_management extends CI_Controller{
 		echo json_encode( $output );
 		
 	}
+
+	*/
 	
     public function payments($customer_id){
         $this->load->library("datatables");
         $this->load->helper('date');
         
-        $this->datatables->select("service_name, payment_datetime, payment_amount, payment_percent");
-        $this->datatables->from("vw_getpayments");
-        $this->datatables->where("customerService_customer_id", $customer_id);
+        $this->datatables->select("contract_name, payment_datetime, payment_amount");
+        $this->datatables->from("Payment");
+        $this->datatables->join("Contract", "payment_contract_id = contract_id", "left");
+        $this->datatables->where("contract_customer_id", $customer_id);
+
         echo $this->datatables->generate();
     }
 	
@@ -333,14 +383,16 @@ class Customer_management extends CI_Controller{
 		$this->load->model('Domain');
 		$this->load->model('Project');
 		$this->load->helper('date');
-		
+
+
 		$this->Customerservice->customerService_service_id = $this->input->post('hizmet');
 		$this->Customerservice->customerService_customer_id = $this->input->post('customer_id');
-		$this->Customerservice->customerService_start = datepicker($this->input->post('date1'));
-		$this->Customerservice->customerService_cost = $this->input->post('tutar');
-		$this->Customerservice->customerService_taxesPercent = $this->input->post('kdv');
-		$this->Customerservice->customerService_totalAmount = $this->input->post('toplam_tutar');
-		$this->customerservice->customerService_note = $this->input->post('sozlesme_notu');
+		//$this->Customerservice->customerService_start = datepicker($this->input->post('date1'));
+		//$this->Customerservice->customerService_cost = $this->input->post('tutar');
+		//$this->Customerservice->customerService_taxesPercent = $this->input->post('kdv');
+		//$this->Customerservice->customerService_totalAmount = $this->input->post('toplam_tutar');
+		//$this->customerservice->customerService_note = $this->input->post('sozlesme_notu');
+		//$this->Customerservice->customerService_contract_id = $this->input->post('contract_id');
 		
 		
 // Diger hizmet
@@ -352,13 +404,14 @@ class Customer_management extends CI_Controller{
 				$this->Project->project_name = $this->input->post('proje_adi');
 				$this->Project->project_description = $this->input->post('proje_ozeti');
 				$this->Project->project_customer_id = $this->input->post('customer_id');
+				$this->Project->project_date1 = datepicker($this->input->post('date1'));
 				$this->Project->project_date2 = datepicker($this->input->post('date2'));
 				$this->Customerservice->customerService_project_id = $this->Project->add_project();
 			}
 			
 			if(intval($this->input->post("proje"))){
 				$this->Customerservice->customerService_project_id = $this->input->post('proje');
-				$this->Customerservice->customerService_finish = datepicker($this->input->post('date2'));
+				//$this->Customerservice->customerService_finish = datepicker($this->input->post('date2'));
 			}
 		}
 
@@ -368,7 +421,7 @@ class Customer_management extends CI_Controller{
 			$this->Domain->domain_access = "1";
 			$this->Customerservice->customerService_domain_id = $this->Domain->add_domain();
 			$this->Customerservice->customerService_hosting = $this->input->post('host');
-			$this->Customerservice->customerService_finish = datepicker($this->input->post('date2'));
+			//$this->Customerservice->customerService_finish = datepicker($this->input->post('date2'));
 		}
 
 // Hosting
@@ -387,7 +440,7 @@ class Customer_management extends CI_Controller{
 			}
 			
 			$this->Customerservice->customerService_hosting = $this->Host->add_host();
-			$this->Customerservice->customerService_finish = datepicker($this->input->post('date2'));
+			//$this->Customerservice->customerService_finish = datepicker($this->input->post('date2'));
 		}
 		
 // ATACFS ve Adwords
@@ -422,7 +475,7 @@ class Customer_management extends CI_Controller{
 			$this->Customerservice->customerService_adminMail = $this->input->post('admin_eposta');
 			$this->Customerservice->customerService_adminPass = $this->input->post('admin_sifre');
 			$this->Customerservice->customerService_group = $this->input->post('site_grubu');
-			$this->Customerservice->customerService_finish = datepicker($this->input->post('date2'));
+			//$this->Customerservice->customerService_finish = datepicker($this->input->post('date2'));
 		}
 		
 		echo $this->Customerservice->add_service();
@@ -621,13 +674,16 @@ class Customer_management extends CI_Controller{
     	echo json_encode($this->Sector->get_sectors());
     }
 
-
-
-    public function test(){
-    	$str = ",9,10,5";
-    	$d = explode(",", $str);
-    	unset($d[0]);
-    	print_r($d);
+    public function new_payment(){
+    	$this->load->model('Payment');
+    	$this->load->helper("date");
+    	$this->Payment->payment_contract_id = $this->input->post('contract_id');
+    	$this->Payment->payment_datetime = datepicker($this->input->post('tarih'));
+    	$this->Payment->payment_user_id = $this->session->userdata('user_id');
+    	$this->Payment->payment_amount = $this->input->post('odenen');
+    	$this->Payment->payment_channel = $this->input->post('kanal');
+    	$this->Payment->payment_expiry = $this->input->post('cek_vade');
+    	echo $this->Payment->add_payment();
     }
         
 }

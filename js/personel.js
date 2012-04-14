@@ -153,10 +153,10 @@ $(document).ready(function() {
                     $.each(JSON, function(span, fval){
                         $('#d_' + span).val(fval);
                     });
+
                 });
             });
-                            
-                            
+
         }
         $("#personel_duzenle_buton, table#personel_bilgileri tr td p").fadeOut(500);
         setTimeout('$("#personel_vazgec_buton, #personel_kaydet_buton, table#personel_bilgileri tr td .editer").fadeIn(500)', 500);
@@ -180,8 +180,7 @@ $(document).ready(function() {
             user_phone : $("#d_user_phone").val(),
             user_gsm : $("#d_user_gsm").val(),
             user_title : $("#d_user_title").val(),
-            user_department_id : $("#d_user_department_id").val(),
-	
+            user_department_id : $("#d_user_department_id").val()
         }, function(data){
             $.getJSON(base_url + "personel_management/personel_info/" + row_id, function(JSON){
                 $.each(JSON, function(span, fval){
@@ -269,7 +268,8 @@ $(document).ready(function() {
                             gsm : $("#y_personel_gsm").val(),
                             title : $("#y_personel_title").val(),
                             adres : $("#y_personel_adres").val(),
-                            departman : $("#y_personel_departman").val()
+                            departman : $("#y_personel_departman").val(),
+                            yetkiler : $("#y_personel_access").val()
                         }, function(data){
                             if(data == "1"){
                                 alert("Personel eklendi");
@@ -281,6 +281,17 @@ $(document).ready(function() {
             ]
             });
 					
+    });
+
+
+    $("#yetki_kaydet").live('click', function(){
+        $.post(base_url + "personel_management/edit_access/" + row_id, {
+            yetkiler : $("#d_user_access").val()
+        }, function(data){
+            if(data == 1){
+                alert("Kullanıcı yetkileri düzenlendi");
+            }
+        });
     });
 
 
@@ -318,6 +329,7 @@ $(document).ready(function() {
             $.each(JSON, function(span, fval){
                 $('p#' + span).html(fval);
             });
+            $("#d_user_access").val(JSON['user_access']);
         });
 
 					

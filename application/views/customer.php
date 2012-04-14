@@ -50,10 +50,10 @@
 				oTable.fnReloadAjax(base_url + "customer_management/get_list/status/" + $("#musteri_durumu").val());
 			}else if($("#filtre_tip").val() == "musteri_notu"){
 				if($("#filtre_tarihi").val() == ""){
-					alert("Tarih seçmelisiniz");
+					$("#filtre_tarihi").val("01 Ocak 1970");
 					return false;
 				}
-				oTable.fnReloadAjax(base_url + "customer_management/get_list/note/" + $("#filtre_tarihi").val() + "/" + $("#filtre_etiketleri").val());
+				oTable.fnReloadAjax(base_url + "customer_management/get_list/note/" + $("#filtre_tarihi").val() + "/" + $("#filtre_etiketleri").val() + "/" + $("#in").val());
 			}
 		});
 		
@@ -219,7 +219,14 @@
 				</td>
 				
 				<td class="musteri_notu opt">
-					etiketlerine sahip
+					etiketlerine
+				</td>
+
+				<td class="musteri_notu opt">
+					<select id="in">
+						<option value="1">sahip</option>
+						<option value="0">sahip olmayan</option>
+					</select>
 				</td>
 
 				<td class="musteri_durumu opt" style="display:none;">

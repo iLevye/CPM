@@ -37,6 +37,10 @@
     }
 
 
+    public function group_by($field, $kind){
+      $this->ci->db->group_by($field, $kind);
+    }
+
     /**
     * Function for get count columns
     * Emre Can

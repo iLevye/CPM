@@ -14,9 +14,6 @@
         <link rel="stylesheet" type="text/css" href="<?= base_url() ?>css/stylesaaa.css" media="screen" /> 
         <link rel="stylesheet" type="text/css" href="<?= base_url() ?>css/style.css" media="screen" /> 
 
-
-
-
         <? /*        <link rel="stylesheet" type="text/css" href="<?=base_url()?>css/jquery.wysiwyg.css" media="screen" /> 
           <link rel="stylesheet" type="text/css" href="<?=base_url()?>css/tablesorter.css" media="screen" />
           <link rel="stylesheet" type="text/css" href="<?=base_url()?>css/theme-blue.css" media="screen" />
@@ -31,6 +28,7 @@
 
         <script type="text/javascript"> 
             base_url = "<?= base_url(); ?>";
+            today = "<?= datepicker_en(date('Y-m-d')) ?>";
 
             $(document).ready(function() { 
                 $(".buton").button();
@@ -130,7 +128,7 @@
 
 <div id="top-bar">
     <div id="top-info">
-        <img src="<?=base_url()?>images/user-icon.png" /><span><?= $this->session->userdata('user_name') ?></span>
+        <img src="<?=base_url()?>images/user-icon.png" /><span><?= $this->session->userdata('user_name') ?> <a style="color:white;margin-left:20px; text-decoration: none;"href="<?=base_url()?>account/logout">Çıkış</a></span>
     </div>
 </div>
 
@@ -142,15 +140,43 @@
     </div>
     <ul>
     <? $url = uri_string();?>
-        <li class="first <?if(strrpos($url, "customer_management") === 0){echo " active ";}?>" onclick="location.href='<?= base_url() ?>customer_management/'">Müşteriler</li>
+
+        <?
+        if(check_access("customer_list")){?>
+            <li class="first <?if(strrpos($url, "customer_management") === 0){echo " active ";}?>" onclick="location.href='<?= base_url() ?>customer_management/'">Müşteriler</li>
+        <?}
+        
+        if(check_access("personel_list")){?>
         <li <?if(strrpos($url, "personel_management") === 0){echo " class='active' ";}?> onclick="location.href='<?= base_url() ?>personel_management/'">Personeller</li>
+        <?}
+
+        if(check_access("project_list")){?>
         <li <?if(strrpos($url, "project_management") === 0){echo " class='active' ";}?> onclick="location.href='<?=base_url()?>project_management/project_list'">Projeler</li>
+        <?}
+
+        if(check_access("contact")){?>
         <li <?if(strrpos($url, "contacts") === 0){echo " class='active' ";}?> onclick="location.href='<?= base_url() ?>contacts/'">Rehber</li>
-        <li <?if(strrpos($url, "customer_service") === 0){echo " class='active' ";}?> onclick="location.href='<?= base_url() ?>lister/customer_service/'">Sözleşmeler</li>
+        <?}
+
+        if(check_access("services")){?>
+        <li <?if(strrpos($url, "customer_service") === 0){echo " class='active' ";}?> onclick="location.href='<?= base_url() ?>lister/customer_service/'">Hizmetler</li>
+        <?}
+
+        if(check_access("offers")){?>
         <li <?if(strrpos($url, "offer_management") === 0){echo " class='active' ";}?> onclick="location.href='<?= base_url() ?>offer_management/'">Teklifler</li>
+        <?}
+
+        if(check_access("ourservices")){?>
         <li <?if(strrpos($url, "services") === 0){echo " class='active' ";}?> onclick="location.href='<?= base_url() ?>services/'">Servisler</li>
+        <?}
+
+        if(check_access("price_list")){?>
         <li <?if(strrpos($url, "price_list") === 0){echo " class='active' ";}?> onclick="location.href='<?= base_url() ?>price_list/'">Fiyat Listesi</li>
-        <li class="last">Hizmetler</li>
+        <?}
+
+        if(check_access("contract_list")){?>
+        <li <?if(strrpos($url, "contract_management") === 0){echo " class='active' ";}?> onclick="location.href='<?= base_url() ?>contract_management'" class="last">Sözleşmeler</li>
+        <?}?>
     </ul>
     <input type="text" style="height:34px;" value="Müşteri ara..." id="musteri_ara">
 </div>

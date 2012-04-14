@@ -4,6 +4,9 @@ class Account extends CI_Controller{
 		parent::__construct();
 	}
 	
+	/*
+	bu fonksiyon kullanılmıyor. user eklemek için personel_management / new_personel
+
 	function create(){
 		$this->User->user_name = $this->input->post('name', true);
 		$this->User->user_title = $this->input->post('title', true);
@@ -39,6 +42,8 @@ class Account extends CI_Controller{
 		}
 		
 	}
+
+	*/
 	
 	public function login(){
 		if(!$this->input->is_ajax_request()){
@@ -89,8 +94,7 @@ class Account extends CI_Controller{
 	
 	public function logout(){
 		$this->session->sess_destroy();
-		print_r($this->session->all_userdata());
-		echo "oturum sonlandi";
+		redirect(base_url());
 	}
 	
 }

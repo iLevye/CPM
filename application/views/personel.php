@@ -53,7 +53,24 @@ $this->load->javascript('jquery.treeselect');
         </div>
 
         <div id="yetkiler">
-            <div id="yetki_agaci" style="float:left; padding-right:60px;">
+                
+            <select style="width:260px; height:260px;" id="d_user_access" multiple="multiple">
+                <option value="customer_list">Müşteri Listesi</option>
+                <option value="customer_detail">Müşteri Bilgileri</option>
+                <option value="contact">Rehber</option>
+                <option value="contract_list">Sözleşme Listesi</option>
+                <option value="contract_detail">Sözleşme Bilgileri</option>
+                <option value="offers">Teklifler</option>
+                <option value="ourservices">Servisler</option>
+                <option value="price_list">Fiyat Listesi</option>
+                <option value="services">Hizmetler</option>
+                <option value="personel_list">Personel Listesi</option>
+                <option value="personel_detail">Personel Bilgileri</option>
+                <option value="finance">Mali Hesaplar</option>
+            </select>
+
+            <a class="buton" id="yetki_kaydet">Yetkileri Kaydet</a>
+            <div id="yetki_agaci" style="float:left; padding-right:60px; display:none;">
                 <ul>
                     <li class="t_musteriler"><input type="checkbox"><span>Müşteriler</span>
                             <ul>
@@ -208,9 +225,9 @@ $this->load->javascript('jquery.treeselect');
                 </ul>
             </div>
             
-            <p style="float: left; font-size: 13px; margin-left: 16px; color: #424041; font-style: italic; width:470px;">* Yetki şablonlarını kullanarak daha önce oluşturulmuş kullanıcı yetkilerini verebilirsiniz. </p>
+            <p style="display:none; float: left; font-size: 13px; margin-left: 16px; color: #424041; font-style: italic; width:470px;">* Yetki şablonlarını kullanarak daha önce oluşturulmuş kullanıcı yetkilerini verebilirsiniz. </p>
             
-            <div style="float:left; margin-left: 20px; width:338px;">
+            <div style="display:none;float:left; margin-left: 20px; width:338px;">
                 
                 <table class="satir1">
                     <tr>
@@ -431,6 +448,26 @@ $this->load->javascript('jquery.treeselect');
         <tr>
             <td>Şifre</td>
             <td><input type="text" id="y_personel_pass"></td>
+        </tr>
+
+        <tr>
+            <td>Yetkiler</td>
+            <td>
+                <select style="width:240px; height:120px;" id="y_personel_access" multiple="multiple">
+                    <option value="customer_list">Müşteri Listesi</option>
+                    <option value="customer_detail">Müşteri Bilgileri</option>
+                    <option value="contact">Rehber</option>
+                    <option value="contract_list">Sözleşme Listesi</option>
+                    <option value="contract_detail">Sözleşme Bilgileri</option>
+                    <option value="offers">Teklifler</option>
+                    <option value="services">Servisler</option>
+                    <option value="ourservices">Fiyat Listesi</option>
+                    <option value="services">Hizmetler</option>
+                    <option value="personel_list">Personel Listesi</option>
+                    <option value="personel_detail">Personel Bilgileri</option>
+                    <option value="finance">Mali Hesaplar</option>
+                </select>
+            </td>
         </tr>
 
         <tr>

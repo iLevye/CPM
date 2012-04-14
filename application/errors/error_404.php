@@ -1,6 +1,3 @@
-<?
-	$this->load->view('customer_detail.php');
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
