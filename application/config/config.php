@@ -23,7 +23,7 @@ $config['upload_path'] = "atacrm/uploaded_files";
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://192.168.0.99/atacrm/';
+$config['base_url']	= 'http://192.168.0.127/atacrm/';
 
 /*
 |--------------------------------------------------------------------------

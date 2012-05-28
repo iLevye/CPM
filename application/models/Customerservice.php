@@ -13,9 +13,20 @@ class Customerservice extends CI_Model{
 	public $customerService_domain_id;
 	
 	public function get_list(){
-		$this->db->select("customerService_id, customerService_domain, service_name");
+		$this->db->select("customerService_id, customerService_domain, (CASE customerService_service_id 
+				WHEN 0 THEN customerService_domain
+				WHEN 1 THEN (select domain_name from Domain where domain_id = customerService_domain_id)
+				WHEN 2 THEN (select host_domain from Host where host_id = customerService_hosting)
+				WHEN 3 THEN customerService_domain
+				WHEN 4 THEN customerService_domain
+				WHEN 7 THEN concat(Service.service_name, ' (',  (select project_name from Project where project_id = customerService_project_id), ')')
+				WHEN 8 THEN concat(Service.service_name, ' (',  (select project_name from Project where project_id = customerService_project_id), ')')
+				WHEN 9 THEN concat(Service.service_name, ' (',  (select project_name from Project where project_id = customerService_project_id), ')')
+				WHEN 10 THEN customerService_domain
+			END) as service_name", false);
 		$this->db->from("Customerservice");
 		$this->db->join("Service", "customerService_service_id = service_id", "left");
+		$this->db->join("Host", "customerService_hosting = host_id", "left");
 		$this->db->where("customerService_customer_id", $this->customerService_customer_id);
 		$sql = $this->db->get();
 		return $sql->result_array();
